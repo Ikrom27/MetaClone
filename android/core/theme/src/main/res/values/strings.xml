@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome">Welcome!</string>
+    <string name="register_text">Register</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="gender">Gender</string>
+    <string name="age">Age</string>
+    <string name="birthday">Birthday</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="password_is_not_same">Passwords must be same!</string>
+    <string name="incorrect_fields">All fields must be filled in correctly.</string>
+    <string name="new_user_text">"New user? "</string>
+</resources>
