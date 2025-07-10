@@ -1,4 +1,4 @@
-package ru.metaclone.apigateaway.controller;
+package ru.metaclone.apigateway.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
