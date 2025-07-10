@@ -8,11 +8,11 @@ import ru.metaclone.service_auth.model.entity.RegisteredUserEntity;
 import java.util.UUID;
 
 @Component
-public class RegisteredUserMapper {
+public class RegisteredUserEntityMapper {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public RegisteredUserEntity mapRegisteredUserEntity(UserCredentials credentials) {
+    public RegisteredUserEntity mapUserCredentials(UserCredentials credentials) {
         var salt = generateUserSalt();
         var password = passwordEncoder.encode(credentials.getPassword() + salt);
         return new RegisteredUserEntity(credentials.getLogin(), password, salt);
