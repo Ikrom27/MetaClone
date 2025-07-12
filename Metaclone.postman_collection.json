@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "b9bdd6ab-8a1e-490e-b844-b442b1620a85",
+		"name": "Metaclone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "35027586"
+	},
+	"item": [
+		{
+			"name": "ApiPing",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/health/ping"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"user_login\",\r\n    \"password\": \"fsdgasdfg3241q2345gdfg456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2Iiwicm9sZSI6IkFVVEhPUklTRURfVVNFUiIsImlhdCI6MTc1MTc0NzE5NCwiZXhwIjoxNzUxNzUwNzk0fQ.rcIjud5PBIhRckpOg6E-eSPAPBU1TAzcy5Hu97NE7LZ__tbr3ZKecbOXvSTjf1bo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8081/auth/refresh_token"
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"credentials\": {\r\n    \"login\": \"testTokenRefresh4\",\r\n    \"password\": \"fsdgasdfg3241q2345gdfg456\"\r\n  },\r\n  \"userInfo\": {\r\n    \"firstName\": \"User6\",\r\n    \"lastName\": \"Doe\",\r\n    \"birthday\": 631152000000,\r\n    \"gender\": \"MALE\"\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8081/auth/register"
+			},
+			"response": []
+		}
+	]
+}
