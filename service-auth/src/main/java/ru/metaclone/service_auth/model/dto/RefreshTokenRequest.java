@@ -1,3 +1,5 @@
 package ru.metaclone.service_auth.model.dto;
 
-public record RefreshTokenRequest(String refreshToken) {}
+import jakarta.validation.constraints.NotNull;
+
+public record RefreshTokenRequest(@NotNull String refreshToken) {}

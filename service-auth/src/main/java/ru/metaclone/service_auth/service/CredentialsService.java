@@ -2,7 +2,7 @@ package ru.metaclone.service_auth.service;
 
 import org.springframework.stereotype.Service;
 import ru.metaclone.service_auth.mapper.RegisteredUserEntityMapper;
-import ru.metaclone.service_auth.model.service.UserCredentials;
+import ru.metaclone.service_auth.model.dto.UserCredentials;
 import ru.metaclone.service_auth.repository.AuthRepository;
 
 @Service

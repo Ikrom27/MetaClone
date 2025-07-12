@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.metaclone.service_auth.model.dto.RefreshTokenRequest;
-import ru.metaclone.service_auth.model.service.UserCredentials;
+import ru.metaclone.service_auth.model.dto.UserCredentials;
 import ru.metaclone.service_auth.model.dto.RegisterRequest;
 import ru.metaclone.service_auth.model.dto.TokensResponse;
 import ru.metaclone.service_auth.service.AuthService;
@@ -39,14 +39,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<TokensResponse> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<TokensResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         return ResponseEntity.ok(
-                authService.registerUser(registerRequest.getCredentials(), registerRequest.getUserDetails())
+                authService.registerUser(registerRequest.credentials(), registerRequest.userDetails())
         );
     }
 
     @PostMapping("/refresh_token")
-    public ResponseEntity<TokensResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+    public ResponseEntity<TokensResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         return ResponseEntity.ok(authService.refreshAccessToken(refreshTokenRequest.refreshToken()));
     }
 }

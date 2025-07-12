@@ -1,12 +1,13 @@
 package ru.metaclone.service_auth.service;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import ru.metaclone.service_auth.exception.InvalidTokenException;
 import ru.metaclone.service_auth.exception.UserAlreadyExistException;
 import ru.metaclone.service_auth.exception.UserNotFountException;
 import ru.metaclone.service_auth.mapper.UserDetailsEventMapper;
-import ru.metaclone.service_auth.model.service.UserCredentials;
-import ru.metaclone.service_auth.model.service.UserDetails;
+import ru.metaclone.service_auth.model.dto.UserCredentials;
+import ru.metaclone.service_auth.model.dto.UserDetails;
 import ru.metaclone.service_auth.model.dto.TokensResponse;
 
 @Service
@@ -32,16 +33,17 @@ public class AuthService {
     }
 
     public TokensResponse loginUser(UserCredentials credentials) throws UserNotFountException {
-        var userId = credentialsService.getUserIdByLogin(credentials.getLogin());
+        var userId = credentialsService.getUserIdByLogin(credentials.login());
         if (userId == null) {
             throw new UserNotFountException(USER_NOT_FOUND);
         }
         return tokensService.generateAndSaveTokens(userId);
     }
 
-    public TokensResponse registerUser(UserCredentials userCredentials,
-            UserDetails userDetails) throws UserAlreadyExistException {
-        if (credentialsService.isUserExistWithLogin(userCredentials.getLogin())) {
+    public TokensResponse registerUser(
+            @NotNull UserCredentials userCredentials,
+            @NotNull UserDetails userDetails) throws UserAlreadyExistException {
+        if (credentialsService.isUserExistWithLogin(userCredentials.login())) {
             throw new UserAlreadyExistException(USER_ALREADY_EXIST);
         }
         var userId = credentialsService.saveUserCredential(userCredentials);

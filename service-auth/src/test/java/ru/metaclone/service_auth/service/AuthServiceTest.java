@@ -7,9 +7,9 @@ import ru.metaclone.service_auth.exception.UserNotFountException;
 import ru.metaclone.service_auth.mapper.UserDetailsEventMapper;
 import ru.metaclone.service_auth.model.dto.UserDetailsEvent;
 import ru.metaclone.service_auth.model.enums.Gender;
-import ru.metaclone.service_auth.model.service.UserCredentials;
+import ru.metaclone.service_auth.model.dto.UserCredentials;
 import ru.metaclone.service_auth.model.dto.TokensResponse;
-import ru.metaclone.service_auth.model.service.UserDetails;
+import ru.metaclone.service_auth.model.dto.UserDetails;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,6 +22,8 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.*;
 import ru.metaclone.service_auth.exception.UserAlreadyExistException;
+
+import java.time.LocalDate;
 
 class AuthServiceTest {
 
@@ -57,8 +59,8 @@ class AuthServiceTest {
         var tokensResponse = authService.loginUser(credentials);
 
         assertNotNull(tokensResponse);
-        assertEquals("accessToken", tokensResponse.getAccessToken());
-        assertEquals("refreshToken", tokensResponse.getRefreshToken());
+        assertEquals("accessToken", tokensResponse.accessToken());
+        assertEquals("refreshToken", tokensResponse.refreshToken());
 
         verify(credentialsService).getUserIdByLogin("login");
         verify(tokensService).generateAndSaveTokens(userId);
@@ -77,10 +79,12 @@ class AuthServiceTest {
     @Test
     void registerUser_Success() throws UserAlreadyExistException {
         var credentials = new UserCredentials("login", "password");
-        var userDetails = new UserDetails("name", "lastName", 1234L, Gender.MALE);
+        var userDetails = new UserDetails("name", "lastName",
+                LocalDate.of(1995, 7, 12), Gender.MALE);
         Long userId = 123L;
         var expectedTokens = new TokensResponse("accessToken", "refreshToken");
-        var userDetailsEvent = new UserDetailsEvent("name", "lastName", 1234L, Gender.MALE);
+        var userDetailsEvent = new UserDetailsEvent("name", "lastName",
+                LocalDate.of(1995, 7, 12), Gender.MALE);
 
         when(credentialsService.isUserExistWithLogin("login")).thenReturn(false);
         when(credentialsService.saveUserCredential(credentials)).thenReturn(userId);
@@ -90,8 +94,8 @@ class AuthServiceTest {
         var tokensResponse = authService.registerUser(credentials, userDetails);
 
         assertNotNull(tokensResponse);
-        assertEquals("accessToken", tokensResponse.getAccessToken());
-        assertEquals("refreshToken", tokensResponse.getRefreshToken());
+        assertEquals("accessToken", tokensResponse.accessToken());
+        assertEquals("refreshToken", tokensResponse.refreshToken());
 
         verify(credentialsService).isUserExistWithLogin("login");
         verify(credentialsService).saveUserCredential(credentials);
@@ -103,7 +107,8 @@ class AuthServiceTest {
     @Test
     void registerUser_UserAlreadyExists_Throws() {
         var credentials = new UserCredentials("login", "password");
-        var userDetails = new UserDetails("name", "lastName", 1234L, Gender.MALE);
+        var userDetails = new UserDetails("name", "lastName",
+                LocalDate.of(1995, 7, 12), Gender.MALE);
 
         when(credentialsService.isUserExistWithLogin("login")).thenReturn(true);
 
@@ -114,7 +119,7 @@ class AuthServiceTest {
     }
 
     @Test
-    void refreshAccessToken_DelegatesToTokensService() throws Exception {
+    void refreshAccessToken_DelegatesToTokensService() {
         String refreshToken = "someRefreshToken";
         var expectedTokens = new TokensResponse("accessToken", "refreshToken");
 
