@@ -1,6 +1,5 @@
 package ru.metaclone.service_auth.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<TokensResponse> register(@RequestBody RegisterRequest registerRequest) {
         return ResponseEntity.ok(
-                authService.registerUser(registerRequest.getCredentials(), registerRequest.getUserInfo())
+                authService.registerUser(registerRequest.getCredentials(), registerRequest.getUserDetails())
         );
     }
 

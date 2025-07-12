@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class RegisteredUserEntity {
+public class CredentialsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", updatable = false, nullable = false)
@@ -30,7 +30,7 @@ public class RegisteredUserEntity {
     @Column(name = "salt", nullable = false)
     private String salt;
 
-    public RegisteredUserEntity(String login, String password, String salt) {
+    public CredentialsEntity(String login, String password, String salt) {
         this.login = login;
         this.password = password;
         this.salt = salt;

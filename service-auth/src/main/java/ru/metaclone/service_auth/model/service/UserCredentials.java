@@ -3,9 +3,11 @@ package ru.metaclone.service_auth.model.service;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class UserCredentials {
     @NotBlank
     @Size(min = 4, max = 50)
