@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @DirtiesContext
-public class AuthTest extends BaseConfigTest {
+public class AuthIntegrationTest extends BasePostgresAndKafkaTest {
 
     @Autowired
     private MockMvc mvc;
@@ -52,12 +52,8 @@ public class AuthTest extends BaseConfigTest {
       "userDetails": %s
     }
     """.formatted(CREDENTIALS, USER_DETAILS);
-
-    private static final String TEST_TOPIC = "auth-topic";
-
-
     @Test
-    public void registerNewUser() throws Exception {
+    public void registerUser_givenValidRequest_shouldReturnTokens() throws Exception {
         mvc.perform(post("/auth/register", "")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(REGISTER_REQUEST))
@@ -66,11 +62,39 @@ public class AuthTest extends BaseConfigTest {
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.accessToken", not(is(emptyString()))))
                 .andExpect(jsonPath("$.refreshToken").exists())
-                .andExpect(jsonPath("$.refreshToken", not(is(emptyString()))));;
+                .andExpect(jsonPath("$.refreshToken", not(is(emptyString()))));
+    }
+
+    @Test
+    void registerUser_givenExistingUser_shouldReturnUserAlreadyExistsError() throws Exception {
+        // register first user
+        mvc.perform(post("/auth/register", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(REGISTER_REQUEST))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        //register same user
+        mvc.perform(post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(REGISTER_REQUEST))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.errorCode").value("USER_ALREADY_EXISTS"))
+                .andExpect(jsonPath("$.message", not(is(emptyString()))));
+    }
+
+    @Test
+    public void shouldSendUserDetailsMessageToKafka_whenUserRegistered() throws Exception {
+        mvc.perform(post("/auth/register", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(REGISTER_REQUEST))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
         assertEquals(
                 mapper.readTree(USER_DETAILS),
-                mapper.readTree(consumeSingleMessageFromTopic(TEST_TOPIC))
+                mapper.readTree(consumeLastMessage())
         );
     }
 }

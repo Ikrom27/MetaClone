@@ -1,5 +1,6 @@
 package ru.metaclone.service_auth.integration_test;
 
+import jakarta.transaction.Transactional;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -25,7 +26,11 @@ import java.util.Map;
                 "port=29092"
         }
 )
-public class BaseConfigTest {
+@Transactional
+public class BasePostgresAndKafkaTest {
+
+    private static final String TEST_TOPIC_NAME = "test-topic";
+
     @Autowired
     private EmbeddedKafkaBroker embeddedKafka;
 
@@ -46,28 +51,33 @@ public class BaseConfigTest {
         registry.add("secret.refresh-token-key", () -> "SDFASDF4F3F34242FASDFASDF32432J3H41L2JKH34KJL12H3J414H2L");
         registry.add("secret.access-token-ttl", () -> "3600000");
         registry.add("secret.refresh-token-ttl", () -> "86400000");
-        registry.add("secret.event-auth-topic", () -> "auth-topic");
+        registry.add("secret.event-auth-topic", () -> TEST_TOPIC_NAME);
 
         registry.add("spring.kafka.bootstrap-servers", () -> "localhost:29092");
         registry.add("spring.kafka.consumer.group-id", () -> "testGroup");
     }
 
-    protected Consumer<String, String> createConsumerByTopic(String topic) {
-        Map<String, Object> props = KafkaTestUtils.consumerProps("groupId", "true", embeddedKafka);
+    protected Consumer<String, String> createConsumer() {
+        Map<String, Object> props = createDefaultProps();
         props.put("key.deserializer", StringDeserializer.class);
         props.put("value.deserializer", StringDeserializer.class);
         Consumer<String, String> consumer = new DefaultKafkaConsumerFactory<String, String>(props).createConsumer();
-        consumer.subscribe(Collections.singleton(topic));
+        consumer.subscribe(Collections.singleton(TEST_TOPIC_NAME));
         return consumer;
     }
 
-    protected String consumeSingleMessageFromTopic(String topic) {
-        Consumer<String, String> consumer = createConsumerByTopic(topic);
-        ConsumerRecord<String, String> record = KafkaTestUtils.getSingleRecord(consumer, topic);
-
-        String json = record.value();
-        consumer.close();
-
-        return json;
+    protected String consumeLastMessage() {
+        try (Consumer<String, String> consumer = createConsumer()) {
+            ConsumerRecord<String, String> record = KafkaTestUtils.getRecords(consumer)
+                    .records(TEST_TOPIC_NAME)
+                    .iterator()
+                    .next();
+            return record.value();
+        }
     }
+
+    protected Map<String, Object> createDefaultProps() {
+        return KafkaTestUtils.consumerProps("groupId", "true", embeddedKafka);
+    }
+
 }
