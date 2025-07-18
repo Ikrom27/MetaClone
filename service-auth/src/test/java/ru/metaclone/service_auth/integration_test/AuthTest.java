@@ -32,8 +32,8 @@ public class AuthTest extends BaseConfigTest {
 
     private static final String CREDENTIALS = """
     {
-      "login": "testTokenRefres10912",
-      "password": "fsdgasdfg3241q2345gdfg456"
+      "login": "testinglogin",
+      "password": "testingpassword"
     }
     """;
 
@@ -63,10 +63,10 @@ public class AuthTest extends BaseConfigTest {
                         .content(REGISTER_REQUEST))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.access_token").exists())
-                .andExpect(jsonPath("$.access_token", not(is(emptyString()))))
-                .andExpect(jsonPath("$.refresh_token").exists())
-                .andExpect(jsonPath("$.refresh_token", not(is(emptyString()))));;
+                .andExpect(jsonPath("$.accessToken").exists())
+                .andExpect(jsonPath("$.accessToken", not(is(emptyString()))))
+                .andExpect(jsonPath("$.refreshToken").exists())
+                .andExpect(jsonPath("$.refreshToken", not(is(emptyString()))));;
 
         assertEquals(
                 mapper.readTree(USER_DETAILS),
