@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: service-auth
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -31,8 +35,6 @@ jobs:
 
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x gradlew
-        working-directory: service-auth
 
       - name: Build and run tests
-        run: ./gradlew clean test
-        working-directory: service-auth
+        run: ./gradlew clean test --no-daemon

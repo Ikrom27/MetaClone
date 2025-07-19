@@ -1,4 +1,4 @@
-package ru.metaclone.service_auth.integration_test;
+package ru.metaclone.service_auth.configs;
 
 import jakarta.transaction.Transactional;
 import org.apache.kafka.clients.consumer.Consumer;
@@ -27,7 +27,7 @@ import java.util.Map;
         }
 )
 @Transactional
-public class BasePostgresAndKafkaTest {
+public class BasePostgresAndKafkaConfig {
 
     private static final String TEST_TOPIC_NAME = "test-topic";
 
