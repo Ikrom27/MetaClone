@@ -1,14 +1,25 @@
 package ru.metaclone.service_auth.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserNotFountException extends RuntimeException {
+public class UserNotFountException extends BaseException {
     private String message;
+
+    public static final String CODE = "USER_NOT_FOUND";
+
+    public UserNotFountException(String message) {
+        super(message);
+    }
+
+    @Override
+    public String getCode() {
+        return CODE;
+    }
+
+    @Override
+    public HttpStatus getStatus() {
+        return HttpStatus.NOT_FOUND;
+    }
 }

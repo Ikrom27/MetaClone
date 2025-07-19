@@ -17,7 +17,9 @@ public class CredentialsService {
     }
 
     public Long getUserIdByLogin(String login) {
-        return authRepository.findByLogin(login).getUserId();
+        var user = authRepository.findByLogin(login);
+        if (user != null) return user.getUserId();
+        return null;
     }
 
     public boolean isUserExistWithLogin(String login) {

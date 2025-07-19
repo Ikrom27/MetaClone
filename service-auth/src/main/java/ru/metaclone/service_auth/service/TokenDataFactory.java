@@ -19,9 +19,4 @@ public class TokenDataFactory {
         long now = System.currentTimeMillis();
         return new TokenData(userId, role, now, now + accessTokenTTL);
     }
-
-    public TokenData createRefreshToken(Long userId, Role role) {
-        long now = System.currentTimeMillis();
-        return new TokenData(userId, role, now, now + refreshTokenTTL);
-    }
 }
