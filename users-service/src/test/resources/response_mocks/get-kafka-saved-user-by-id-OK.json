@@ -1,0 +1,11 @@
+{
+  "login": "existingUser",
+  "first_name": "Petr",
+  "second_name": "Petrov",
+  "birthday": "2000-05-05",
+  "gender": "MALE",
+  "avatar_url": null,
+  "about": null,
+  "follows_count": 0,
+  "followers_count": 0
+}

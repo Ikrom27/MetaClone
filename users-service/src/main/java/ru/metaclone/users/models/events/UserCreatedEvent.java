@@ -6,7 +6,7 @@ import ru.metaclone.users.models.enums.Gender;
 import java.time.LocalDate;
 
 public record UserCreatedEvent(
-        String userId,
+        Long userId,
         String login,
         String firstName,
         String lastName,

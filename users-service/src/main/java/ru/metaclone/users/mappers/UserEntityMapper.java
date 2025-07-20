@@ -20,6 +20,7 @@ public class UserEntityMapper {
 
     public UserEntity mapEntityFrom(UserCreatedEvent userCreatedEvent) {
         return UserEntity.builder()
+                .userId(userCreatedEvent.userId())
                 .login(userCreatedEvent.login())
                 .firstName(userCreatedEvent.firstName())
                 .secondName(userCreatedEvent.lastName())
