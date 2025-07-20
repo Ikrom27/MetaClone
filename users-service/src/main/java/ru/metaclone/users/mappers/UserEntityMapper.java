@@ -2,6 +2,7 @@ package ru.metaclone.users.mappers;
 
 import org.springframework.stereotype.Component;
 import ru.metaclone.users.models.dto.SaveUserDetailsRequest;
+import ru.metaclone.users.models.dto.UserResponse;
 import ru.metaclone.users.models.entity.UserEntity;
 import ru.metaclone.users.models.events.UserCreatedEvent;
 
@@ -25,5 +26,20 @@ public class UserEntityMapper {
                 .gender(userCreatedEvent.gender() != null ? userCreatedEvent.gender().name() : null)
                 .birthday(userCreatedEvent.birthday())
                 .build();
+    }
+
+    public UserResponse mapToResponse(UserEntity userEntity) {
+        return new UserResponse(
+                userEntity.getUserId(),
+                userEntity.getLogin(),
+                userEntity.getFirstName(),
+                userEntity.getSecondName(),
+                userEntity.getAvatarUrl(),
+                userEntity.getAbout(),
+                userEntity.getBirthday(),
+                userEntity.getGender(),
+                userEntity.getFollowsCount(),
+                userEntity.getFollowersCount()
+        );
     }
 }

@@ -1,9 +1,11 @@
 package ru.metaclone.users.service;
 
 import org.springframework.stereotype.Service;
+import ru.metaclone.users.exceptions.UserNotFoundException;
 import ru.metaclone.users.mappers.UserEntityMapper;
 import ru.metaclone.users.models.dto.SaveUserDetailsRequest;
 import ru.metaclone.users.models.dto.SaveUserResponse;
+import ru.metaclone.users.models.dto.UserResponse;
 import ru.metaclone.users.models.entity.UserEntity;
 import ru.metaclone.users.models.events.UserCreatedEvent;
 import ru.metaclone.users.repository.UsersRepository;
@@ -16,6 +18,11 @@ public class UsersService {
     public UsersService(UsersRepository usersRepository, UserEntityMapper userEntityMapper) {
         this.usersRepository = usersRepository;
         this.userEntityMapper = userEntityMapper;
+    }
+    public UserResponse getUserById(Long id) {
+        return usersRepository.findById(id)
+                .map(userEntityMapper::mapToResponse)
+                .orElseThrow(() -> new UserNotFoundException("User with this id not found"));
     }
 
     public SaveUserResponse saveUserRequest(SaveUserDetailsRequest newUser) {
