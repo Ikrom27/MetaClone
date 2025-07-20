@@ -27,7 +27,7 @@ public class UsersController {
     @PostMapping("/save")
     public ResponseEntity<SaveUserResponse> save(@Validated @RequestBody SaveUserDetailsRequest saveUserDetailsRequest,
                                                  UriComponentsBuilder uriBuilder) {
-        var body = usersService.saveUser(saveUserDetailsRequest);
+        var body = usersService.saveUserRequest(saveUserDetailsRequest);
         URI location = uriBuilder
                 .path("/users/{id}")
                 .buildAndExpand(body.userId())

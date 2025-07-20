@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: users-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ${USERS_GROUP}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        "spring.json.trusted.packages": "*"
+        "spring.json.value.default.type": "ru.metaclone.users.models.events.UserCreatedEvent"
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+server:
+  port: 8082
+  host: localhost
+
+kafka:
+  topic:
+    user-events: ${AUTH_TOPIC}
+  group-id:
+    users: ${USERS_GROUP}

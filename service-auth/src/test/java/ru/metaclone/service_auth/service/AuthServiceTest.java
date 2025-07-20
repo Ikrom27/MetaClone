@@ -83,12 +83,12 @@ class AuthServiceTest {
                 LocalDate.of(1995, 7, 12), Gender.MALE);
         Long userId = 123L;
         var expectedTokens = new TokensResponse("accessToken", "refreshToken");
-        var userDetailsEvent = new UserDetailsEvent("name", "lastName",
+        var userDetailsEvent = new UserDetailsEvent("login", "name", "lastName",
                 LocalDate.of(1995, 7, 12), Gender.MALE);
 
         when(credentialsService.isUserExistWithLogin("login")).thenReturn(false);
         when(credentialsService.saveUserCredential(credentials)).thenReturn(userId);
-        when(userDetailsEventMapper.mapUserDetailsEvent(userDetails)).thenReturn(userDetailsEvent);
+        when(userDetailsEventMapper.mapUserDetailsEvent("login", userDetails)).thenReturn(userDetailsEvent);
         when(tokensService.generateAndSaveTokens(userId)).thenReturn(expectedTokens);
 
         var tokensResponse = authService.registerUser(credentials, userDetails);
@@ -99,7 +99,7 @@ class AuthServiceTest {
 
         verify(credentialsService).isUserExistWithLogin("login");
         verify(credentialsService).saveUserCredential(credentials);
-        verify(userDetailsEventMapper).mapUserDetailsEvent(userDetails);
+        verify(userDetailsEventMapper).mapUserDetailsEvent("login", userDetails);
         verify(usersDetailsProducer).sendUserInfo(userDetailsEvent);
         verify(tokensService).generateAndSaveTokens(userId);
     }

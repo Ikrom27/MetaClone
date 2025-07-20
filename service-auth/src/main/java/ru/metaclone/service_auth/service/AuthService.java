@@ -47,7 +47,8 @@ public class AuthService {
             throw new UserAlreadyExistException(USER_ALREADY_EXIST);
         }
         var userId = credentialsService.saveUserCredential(userCredentials);
-        usersDetailsProducer.sendUserInfo(userDetailsEventMapper.mapUserDetailsEvent(userDetails));
+        usersDetailsProducer.sendUserInfo(
+                userDetailsEventMapper.mapUserDetailsEvent(userCredentials.login(), userDetails));
         return tokensService.generateAndSaveTokens(userId);
     }
 

@@ -25,6 +25,16 @@ public class TestDataFactory {
         }
         """;
 
+    public static final String USER_CREATED_EVENT = """
+        {
+          "login": "testinglogin",
+          "firstName": "User6",
+          "lastName": "Doe",
+          "birthday": "1996-03-23",
+          "gender": "MALE"
+        }
+        """;
+
     public static final String REGISTER_REQUEST = """
         {
           "credentials": %s,

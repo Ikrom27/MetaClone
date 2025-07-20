@@ -66,7 +66,7 @@ public class RegisterIntegrationTest extends BasePostgresAndKafkaConfig {
                 .andExpect(status().isOk());
 
         assertEquals(
-                mapper.readTree(TestDataFactory.USER_DETAILS),
+                mapper.readTree(TestDataFactory.USER_CREATED_EVENT),
                 mapper.readTree(consumeLastMessage())
         );
     }
