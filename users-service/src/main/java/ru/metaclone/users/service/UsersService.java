@@ -25,8 +25,8 @@ public class UsersService {
                 .orElseThrow(() -> new UserNotFoundException("User with this id not found"));
     }
 
-    public SaveUserResponse saveUserRequest(SaveUserDetailsRequest newUser) {
-        var userEntity = userEntityMapper.mapEntityFrom(newUser);
+    public SaveUserResponse saveUserRequest(Long userId, SaveUserDetailsRequest newUser) {
+        var userEntity = userEntityMapper.mapEntityFrom(userId, newUser);
         saveUserEntity(userEntity);
         return new SaveUserResponse(userEntity.getUserId(), userEntity.getLogin());
     }

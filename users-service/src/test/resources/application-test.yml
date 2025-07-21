@@ -15,4 +15,4 @@ kafka:
     users: users-service
 
 secret:
-  access-token-key: ${ACCESS_TOKEN_KEN}
+  access-token-key: SDFSDFS34234DSFSDFDSDDFASDF32432J3H41L2JKH34KJL12H3J414H2L

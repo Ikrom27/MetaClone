@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.metaclone.users.models.dto.SaveUserDetailsRequest;
 import ru.metaclone.users.models.dto.SaveUserResponse;
 import ru.metaclone.users.models.dto.UserResponse;
@@ -27,15 +26,11 @@ public class UsersController {
         this.usersService = usersService;
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<SaveUserResponse> save(@Validated @RequestBody SaveUserDetailsRequest saveUserDetailsRequest,
-                                                 UriComponentsBuilder uriBuilder) {
-        var body = usersService.saveUserRequest(saveUserDetailsRequest);
-        URI location = uriBuilder
-                .path("/users/{id}")
-                .buildAndExpand(body.userId())
-                .toUri();
-        return ResponseEntity.created(location).body(body);
+    @PostMapping("/update/{id}")
+    public ResponseEntity<SaveUserResponse> update(@Validated @RequestBody SaveUserDetailsRequest saveUserDetailsRequest,
+                                                 @PathVariable("id") Long userId) {
+        var body = usersService.saveUserRequest(userId, saveUserDetailsRequest);
+        return ResponseEntity.ok().body(body);
     }
 
     @GetMapping("/{id}")

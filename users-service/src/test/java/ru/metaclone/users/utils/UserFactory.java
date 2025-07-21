@@ -16,6 +16,7 @@ import static org.apache.logging.log4j.util.LoaderUtil.getClassLoader;
 public class UserFactory {
     public static UserEntity mockExistingUserEntity() {
         return UserEntity.builder()
+                .userId(1L)
                 .login("existingUser")
                 .firstName("Petr")
                 .secondName("Petrov")
