@@ -16,7 +16,8 @@ public class UsersEventConsumer {
 
     @KafkaListener(
             topics = "${kafka.topic.user-events}",
-            groupId = "${kafka.group-id.users}"
+            groupId = "${kafka.group-id.users}",
+            containerFactory = "kafkaListenerContainerFactory"
     )
     public void consume(UserCreatedEvent userCreatedEvent) {
         usersService.saveUserCreatedEvent(userCreatedEvent);

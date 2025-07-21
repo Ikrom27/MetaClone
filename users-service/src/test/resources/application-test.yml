@@ -13,3 +13,6 @@ kafka:
     user-events: user-events
   group-id:
     users: users-service
+
+secret:
+  access-token-key: ${ACCESS_TOKEN_KEN}

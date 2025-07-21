@@ -27,3 +27,6 @@ kafka:
     user-events: ${AUTH_TOPIC}
   group-id:
     users: ${USERS_GROUP}
+
+secret:
+  access-token-key: ${ACCESS_TOKEN_KEN}

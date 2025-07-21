@@ -10,6 +10,7 @@ import ru.metaclone.users.models.events.UserCreatedEvent;
 public class UserEntityMapper {
     public UserEntity mapEntityFrom(SaveUserDetailsRequest saveUserDetailsRequest) {
         return UserEntity.builder()
+                .userId(saveUserDetailsRequest.userId())
                 .login(saveUserDetailsRequest.login())
                 .firstName(saveUserDetailsRequest.firstName())
                 .secondName(saveUserDetailsRequest.lastName())
