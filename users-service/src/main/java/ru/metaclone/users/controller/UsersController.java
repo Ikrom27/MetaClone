@@ -13,8 +13,6 @@ import ru.metaclone.users.models.dto.SaveUserResponse;
 import ru.metaclone.users.models.dto.UserResponse;
 import ru.metaclone.users.service.UsersService;
 
-import java.net.URI;
-
 @RestController
 @RequestMapping("/users")
 @Validated
