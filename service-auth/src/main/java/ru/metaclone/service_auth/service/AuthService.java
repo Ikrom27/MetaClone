@@ -48,7 +48,7 @@ public class AuthService {
         }
         var userId = credentialsService.saveUserCredential(userCredentials);
         usersDetailsProducer.sendUserInfo(
-                userDetailsEventMapper.mapUserDetailsEvent(userCredentials.login(), userDetails));
+                userDetailsEventMapper.mapUserDetailsEvent(userId, userCredentials.login(), userDetails));
         return tokensService.generateAndSaveTokens(userId);
     }
 

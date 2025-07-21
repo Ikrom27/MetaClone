@@ -6,8 +6,9 @@ import ru.metaclone.service_auth.model.dto.UserDetails;
 
 @Component
 public class UserDetailsEventMapper {
-    public UserDetailsEvent mapUserDetailsEvent(String userLogin, UserDetails userDetails) {
+    public UserDetailsEvent mapUserDetailsEvent(Long userId, String userLogin, UserDetails userDetails) {
 
-        return new UserDetailsEvent(userLogin, userDetails.firstName(), userDetails.lastName(), userDetails.birthday(), userDetails.gender());
+        return new UserDetailsEvent(userId, userLogin, userDetails.firstName(),
+                userDetails.lastName(), userDetails.birthday(), userDetails.gender());
     }
 }

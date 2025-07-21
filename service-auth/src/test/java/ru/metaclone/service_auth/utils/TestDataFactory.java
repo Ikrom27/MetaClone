@@ -27,6 +27,7 @@ public class TestDataFactory {
 
     public static final String USER_CREATED_EVENT = """
         {
+          "userId": 1,
           "login": "testinglogin",
           "firstName": "User6",
           "lastName": "Doe",
