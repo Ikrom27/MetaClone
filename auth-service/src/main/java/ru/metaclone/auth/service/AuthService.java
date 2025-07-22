@@ -5,6 +5,7 @@ import ru.metaclone.auth.exception.InvalidTokenException;
 import ru.metaclone.auth.exception.UserAlreadyExistException;
 import ru.metaclone.auth.exception.UserNotFountException;
 import ru.metaclone.auth.mapper.UserDetailsEventMapper;
+import ru.metaclone.auth.model.dto.LogoutResponse;
 import ru.metaclone.auth.model.dto.UserCredentials;
 import ru.metaclone.auth.model.dto.UserDetails;
 import ru.metaclone.auth.model.dto.TokensResponse;
@@ -20,6 +21,7 @@ public class AuthService {
 
     private static final String USER_ALREADY_EXIST = "User with this login already exist";
     private static final String USER_NOT_FOUND = "User with this login not found";
+    private static final String LOGOUT_SUCCESSFUL = "Logout successful";
 
     public AuthService(
             TokensService tokensService,
@@ -59,5 +61,10 @@ public class AuthService {
 
     public TokensResponse refreshAccessToken(String refreshToken) throws InvalidTokenException {
         return tokensService.refreshAccessToken(refreshToken);
+    }
+
+    public LogoutResponse logout(String refreshToken) {
+        tokensService.logout(refreshToken);
+        return new LogoutResponse(LOGOUT_SUCCESSFUL);
     }
 }

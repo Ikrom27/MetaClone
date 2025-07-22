@@ -26,7 +26,8 @@ public class SecurityConfig {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth/refresh_token").permitAll())
+                        .requestMatchers(HttpMethod.POST, "/v1/auth/refresh_token").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/auth/logout").permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 

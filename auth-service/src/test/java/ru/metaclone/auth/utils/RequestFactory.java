@@ -18,4 +18,12 @@ public class RequestFactory {
                 }
                 """.formatted(token);
     }
+
+    public static String mockLogoutRequest(String token) {
+        return """
+                {
+                  "refresh_token": "%s"
+                }
+                """.formatted(token);
+    }
 }

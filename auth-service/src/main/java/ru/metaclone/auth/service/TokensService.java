@@ -7,6 +7,8 @@ import ru.metaclone.auth.exception.TokenNotFoundException;
 import ru.metaclone.auth.exception.UserNotFountException;
 import ru.metaclone.auth.mapper.TokenEntityMapper;
 import ru.metaclone.auth.model.dto.TokensResponse;
+import ru.metaclone.auth.model.enums.Authorities;
+import ru.metaclone.auth.model.enums.Role;
 import ru.metaclone.auth.model.service.TokenData;
 import ru.metaclone.auth.repository.TokensRepository;
 
@@ -49,5 +51,10 @@ public class TokensService {
         );
 
         return new TokensResponse(accessToken, refreshToken);
+    }
+
+    public void logout(String refreshToken) {
+        var refreshTokenData = jwtService.getRefreshTokenDataOrThrow(refreshToken);
+        tokensRepository.deleteById(refreshTokenData.tokenId());
     }
 }

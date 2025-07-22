@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.metaclone.auth.model.dto.LogoutRequest;
+import ru.metaclone.auth.model.dto.LogoutResponse;
 import ru.metaclone.auth.model.dto.RefreshTokenRequest;
 import ru.metaclone.auth.model.dto.UserCredentials;
 import ru.metaclone.auth.model.dto.RegisterRequest;
@@ -41,6 +43,11 @@ public class AuthController {
     @PostMapping("/refresh_token")
     public ResponseEntity<TokensResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         return ResponseEntity.ok(authService.refreshAccessToken(refreshTokenRequest.refreshToken()));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResponse> logout(@Valid @RequestBody LogoutRequest logoutRequest) {
+        return ResponseEntity.ok(authService.logout(logoutRequest.refreshToken()));
     }
 
     private List<String> getAuthorities(){
