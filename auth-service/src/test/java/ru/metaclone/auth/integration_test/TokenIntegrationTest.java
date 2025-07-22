@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.metaclone.auth.configs.BasePostgresAndKafkaConfig;
 import ru.metaclone.auth.exception.InvalidTokenException;
 import ru.metaclone.auth.utils.DataMocks;
 import ru.metaclone.auth.utils.RequestFactory;
@@ -21,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @DirtiesContext
-public class TokenIntegrationTest extends BasePostgresAndKafkaConfig {
+public class TokenIntegrationTest extends BaseTestingSetup {
 
     @Autowired
     private MockMvc mvc;

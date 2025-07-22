@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import ru.metaclone.auth.configs.BasePostgresAndKafkaConfig;
 import ru.metaclone.auth.exception.UserAlreadyExistException;
 import ru.metaclone.auth.utils.DataMocks;
 import ru.metaclone.auth.utils.RequestFactory;
@@ -23,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @DirtiesContext
-public class RegisterIntegrationTest extends BasePostgresAndKafkaConfig {
+public class RegisterIntegrationTest extends BaseTestingSetup {
 
     @Autowired
     private MockMvc mvc;

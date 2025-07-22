@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.metaclone.auth.configs.BasePostgresAndKafkaConfig;
 import ru.metaclone.auth.exception.UserNotFountException;
 import ru.metaclone.auth.utils.DataMocks;
 import ru.metaclone.auth.utils.RequestFactory;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @DirtiesContext
-public class LoginIntegrationTest extends BasePostgresAndKafkaConfig {
+public class LoginIntegrationTest extends BaseTestingSetup {
 
     @Autowired
     private MockMvc mvc;

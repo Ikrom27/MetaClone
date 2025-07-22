@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: auth-service
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:metaclone_auth}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup
+
+server:
+  port: 8083
+  host: localhost
+
+secret:
+  access-token-key: ${SECRET_ACCESS_TOKEN_KEY}
+  refresh-token-key: ${SECRET_REFRESH_TOKEN_KEY}
+  access-token-ttl: ${SECRET_ACCESS_TOKEN_TTL}
+  refresh-token-ttl: ${SECRET_REFRESH_TOKEN_TTL}
+  event-auth-topic: ${EVENT_AUTH_TOPIC}

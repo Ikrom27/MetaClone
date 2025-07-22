@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:15.2:///some_name
+    username: some_user
+    password: some_pass
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: testGroup
+
+secret:
+  access-token-key: SDFSDFS34234DSFSDFDSDDFASDF32432J3H41L2JKH34KJL12H3J414H2L
+  refresh-token-key: SDFASDF4F3F34242FASDFASDF32432J3H41L2JKH34KJL12H3J414H2L
+  access-token-ttl: 3600000
+  refresh-token-ttl: 86400000
+  event-auth-topic: test-topic
