@@ -10,7 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import ru.metaclone.service_auth.configs.BasePostgresAndKafkaConfig;
 import ru.metaclone.service_auth.exception.UserAlreadyExistException;
-import ru.metaclone.service_auth.utils.TestDataFactory;
+import ru.metaclone.service_auth.utils.DataMocks;
+import ru.metaclone.service_auth.utils.RequestFactory;
 
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
@@ -31,9 +32,10 @@ public class RegisterIntegrationTest extends BasePostgresAndKafkaConfig {
 
     @Test
     public void registerUser_givenValidRequest_shouldReturnTokens() throws Exception {
-        mvc.perform(post("/auth/register")
+        var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
+        mvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.registerRequest()))
+                        .content(registerRequest))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.accessToken").exists())
@@ -44,14 +46,15 @@ public class RegisterIntegrationTest extends BasePostgresAndKafkaConfig {
 
     @Test
     public void registerUser_givenExistingUser_shouldReturnUserAlreadyExistsError() throws Exception {
-        mvc.perform(post("/auth/register")
+        var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
+        mvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.registerRequest()))
+                        .content(registerRequest))
                 .andExpect(status().isOk());
 
-        mvc.perform(post("/auth/register")
+        mvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.registerRequest()))
+                        .content(registerRequest))
                 .andExpect(status().isConflict())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.errorCode").value(UserAlreadyExistException.CODE))
@@ -60,13 +63,14 @@ public class RegisterIntegrationTest extends BasePostgresAndKafkaConfig {
 
     @Test
     public void registerUser_givenValidRequest_shouldSendUserDetailsMessageToKafka() throws Exception {
-        mvc.perform(post("/auth/register")
+        var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
+        mvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.registerRequest()))
+                        .content(registerRequest))
                 .andExpect(status().isOk());
 
         assertEquals(
-                mapper.readTree(TestDataFactory.USER_CREATED_EVENT),
+                mapper.readTree(DataMocks.USER_CREATED_EVENT),
                 mapper.readTree(consumeLastMessage())
         );
     }

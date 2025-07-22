@@ -9,7 +9,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.metaclone.service_auth.configs.BasePostgresAndKafkaConfig;
 import ru.metaclone.service_auth.exception.UserNotFountException;
-import ru.metaclone.service_auth.utils.TestDataFactory;
+import ru.metaclone.service_auth.utils.DataMocks;
+import ru.metaclone.service_auth.utils.RequestFactory;
 
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.not;
@@ -26,14 +27,15 @@ public class LoginIntegrationTest extends BasePostgresAndKafkaConfig {
 
     @Test
     public void login_givenValidCredentials_shouldReturnTokens() throws Exception {
-        mvc.perform(post("/auth/register")
+        var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
+        mvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.registerRequest()))
+                        .content(registerRequest))
                 .andExpect(status().isOk());
 
-        mvc.perform(post("/auth/login")
+        mvc.perform(post("/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.CREDENTIALS))
+                        .content(DataMocks.CREDENTIALS))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.accessToken").exists())
@@ -44,9 +46,10 @@ public class LoginIntegrationTest extends BasePostgresAndKafkaConfig {
 
     @Test
     public void login_givenUnknownUser_shouldReturnUserNotFoundError() throws Exception {
-        mvc.perform(post("/auth/login")
+        var loginRequest = DataMocks.CREDENTIALS_UNKNOWN;
+        mvc.perform(post("/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.UNKNOWN_USER_CREDENTIALS))
+                        .content(loginRequest))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.errorCode").value(UserNotFountException.CODE))

@@ -1,6 +1,5 @@
 package ru.metaclone.service_auth.service;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import ru.metaclone.service_auth.exception.InvalidTokenException;
 import ru.metaclone.service_auth.exception.UserAlreadyExistException;
@@ -9,6 +8,8 @@ import ru.metaclone.service_auth.mapper.UserDetailsEventMapper;
 import ru.metaclone.service_auth.model.dto.UserCredentials;
 import ru.metaclone.service_auth.model.dto.UserDetails;
 import ru.metaclone.service_auth.model.dto.TokensResponse;
+
+import java.util.List;
 
 @Service
 public class AuthService {
@@ -32,24 +33,28 @@ public class AuthService {
         this.userDetailsEventMapper = userDetailsEventMapper;
     }
 
-    public TokensResponse loginUser(UserCredentials credentials) throws UserNotFountException {
+    public TokensResponse loginUser(UserCredentials credentials, List<String> defaultAuthorities)
+            throws UserNotFountException {
         var userId = credentialsService.getUserIdByLogin(credentials.login());
         if (userId == null) {
             throw new UserNotFountException(USER_NOT_FOUND);
         }
-        return tokensService.generateAndSaveTokens(userId);
+        return tokensService.generateAndSaveTokens(userId, defaultAuthorities);
     }
 
     public TokensResponse registerUser(
-            @NotNull UserCredentials userCredentials,
-            @NotNull UserDetails userDetails) throws UserAlreadyExistException {
+            UserCredentials userCredentials,
+            UserDetails userDetails,
+            List<String> defaultAuthorities
+    ) throws UserAlreadyExistException {
         if (credentialsService.isUserExistWithLogin(userCredentials.login())) {
             throw new UserAlreadyExistException(USER_ALREADY_EXIST);
         }
         var userId = credentialsService.saveUserCredential(userCredentials);
         usersDetailsProducer.sendUserInfo(
                 userDetailsEventMapper.mapUserDetailsEvent(userId, userCredentials.login(), userDetails));
-        return tokensService.generateAndSaveTokens(userId);
+        var result = tokensService.generateAndSaveTokens(userId, defaultAuthorities);
+        return result;
     }
 
     public TokensResponse refreshAccessToken(String refreshToken) throws InvalidTokenException {

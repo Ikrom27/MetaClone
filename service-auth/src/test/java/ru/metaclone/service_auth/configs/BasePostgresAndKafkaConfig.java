@@ -9,6 +9,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -27,6 +28,7 @@ import java.util.Map;
         }
 )
 @Transactional
+@Rollback
 public class BasePostgresAndKafkaConfig {
 
     private static final String TEST_TOPIC_NAME = "test-topic";

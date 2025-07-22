@@ -4,5 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.metaclone.service_auth.model.entity.TokenEntity;
 
+import java.util.UUID;
+
 @Repository
-public interface TokensRepository extends JpaRepository<TokenEntity, Long> { }
+public interface TokensRepository extends JpaRepository<TokenEntity, UUID> { }

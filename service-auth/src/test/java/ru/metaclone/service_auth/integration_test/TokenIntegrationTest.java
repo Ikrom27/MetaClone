@@ -10,7 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.metaclone.service_auth.configs.BasePostgresAndKafkaConfig;
 import ru.metaclone.service_auth.exception.InvalidTokenException;
-import ru.metaclone.service_auth.utils.TestDataFactory;
+import ru.metaclone.service_auth.utils.DataMocks;
+import ru.metaclone.service_auth.utils.RequestFactory;
 
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.not;
@@ -29,22 +30,19 @@ public class TokenIntegrationTest extends BasePostgresAndKafkaConfig {
 
     @Test
     public void refreshToken_givenValidRequest_shouldReturnNewAccessToken() throws Exception {
-        var registerResult = mvc.perform(post("/auth/register")
+        var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
+        var registerResult = mvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestDataFactory.registerRequest()))
+                        .content(registerRequest))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String json = registerResult.getResponse().getContentAsString();
         String refreshToken = mapper.readTree(json).get("refreshToken").asText();
 
-        String refreshRequest = """
-            {
-              "refreshToken": "%s"
-            }
-            """.formatted(refreshToken);
+        String refreshRequest = RequestFactory.mockRefreshTokenRequest(refreshToken);
 
-        mvc.perform(post("/auth/refresh_token")
+        mvc.perform(post("/v1/auth/refresh_token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(refreshRequest))
                 .andExpect(status().isOk())
@@ -54,13 +52,9 @@ public class TokenIntegrationTest extends BasePostgresAndKafkaConfig {
 
     @Test
     public void refreshToken_givenInvalidToken_shouldReturnUnauthorized() throws Exception {
-        String request = """
-            {
-              "refreshToken": "Bearer invalid.token.here"
-            }
-            """;
+        String request = RequestFactory.mockRefreshTokenRequest("invalid token");
 
-        mvc.perform(post("/auth/refresh_token")
+        mvc.perform(post("/v1/auth/refresh_token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isUnauthorized())
