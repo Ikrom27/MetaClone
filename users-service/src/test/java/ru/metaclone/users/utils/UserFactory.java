@@ -3,6 +3,7 @@ package ru.metaclone.users.utils;
 
 import ru.metaclone.users.models.entity.UserEntity;
 import ru.metaclone.users.models.enums.Gender;
+import ru.metaclone.users.models.events.UserAvatarUpdatedEvent;
 import ru.metaclone.users.models.events.UserCreatedEvent;
 
 import java.io.IOException;
@@ -37,6 +38,13 @@ public class UserFactory {
                 "Petrov",
                 LocalDate.of(2000, 5, 5),
                 Gender.MALE
+        );
+    }
+
+    public static UserAvatarUpdatedEvent mockUserAvatarUpdatedEvent() {
+        return new UserAvatarUpdatedEvent(
+                1L,
+                "http://updatedAvatar.ru"
         );
     }
 

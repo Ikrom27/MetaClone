@@ -1,5 +1,6 @@
 package ru.metaclone.users.integration_tests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,19 +25,24 @@ public class UsersIntegrationTest extends BaseIntegrationTest {
     @Autowired
     private UsersRepository usersRepository;
 
+    @BeforeEach
+    void cleanUp() {
+        usersRepository.deleteAll();
+    }
+
     @Test
     void getUserById_ExistingUser_ReturnsCorrectData() throws Exception {
         var saved = usersRepository.save(UserFactory.mockExistingUserEntity());
         var expectedResponse = UserFactory.loadFileAsString("response_mocks/get-user-by-id-OK.json");
 
-        mockMvc.perform(get("/users/" + saved.getUserId()))
+        mockMvc.perform(get("/users/v1/" + saved.getUserId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedResponse));
     }
 
     @Test
     void getUserById_UserNotExist_ReturnsNotFoundError() throws Exception {
-        mockMvc.perform(get("/users/" + 1L))
+        mockMvc.perform(get("/users/v1/" + 1L))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.errorCode").value(UserNotFoundException.CODE));

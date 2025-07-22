@@ -1,9 +1,6 @@
 package ru.metaclone.users.integration_tests;
 
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -11,8 +8,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
-@Transactional
-@Rollback
 @EmbeddedKafka(
         partitions = 1,
         brokerProperties = {
@@ -20,11 +15,7 @@ import org.testcontainers.utility.DockerImageName;
                 "port=29092"
         }
 )
-public class BaseIntegrationTest {
-
-    @Value("${kafka.topic.user-events}")
-    protected String TEST_TOPIC_NAME;
-
+abstract class BaseIntegrationTest {
     private static final DockerImageName POSTGRES_IMAGE = DockerImageName
             .parse("postgres:16")
             .asCompatibleSubstituteFor("postgres");

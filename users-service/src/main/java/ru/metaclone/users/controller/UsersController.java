@@ -14,7 +14,7 @@ import ru.metaclone.users.models.dto.UserResponse;
 import ru.metaclone.users.service.UsersService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users/v1")
 @Validated
 public class UsersController {
 
