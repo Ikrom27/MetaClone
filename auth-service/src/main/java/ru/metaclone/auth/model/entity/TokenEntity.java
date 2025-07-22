@@ -23,7 +23,7 @@ public class TokenEntity {
     @Column(name = "user_id", updatable = false, nullable = false)
     private Long userId;
 
-    @Column(name = "refresh_token", nullable = false)
+    @Column(name = "refresh_token", columnDefinition = "TEXT", nullable = false)
     private String refreshToken;
 
     @Column(name = "created_at", nullable = false)
