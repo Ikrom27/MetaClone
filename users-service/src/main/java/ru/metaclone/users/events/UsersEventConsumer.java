@@ -21,7 +21,7 @@ public class UsersEventConsumer {
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void consumeUserCreatedEvents(UserCreatedEvent userCreatedEvent) {
-        usersService.saveUserCreatedEvent(userCreatedEvent);
+        usersService.createNewUserFromEvent(userCreatedEvent);
     }
 
     @KafkaListener(

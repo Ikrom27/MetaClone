@@ -8,6 +8,11 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600s
+
 kafka:
   topic:
     user-events: user-event

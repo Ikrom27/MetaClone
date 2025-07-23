@@ -21,7 +21,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "credential")
 public class CredentialsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

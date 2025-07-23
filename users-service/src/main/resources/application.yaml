@@ -1,6 +1,7 @@
 spring:
   application:
     name: users-service
+
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -17,6 +18,14 @@ spring:
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: ${USERS_CACHE_TTL}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
 server:
   port: 8082

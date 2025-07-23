@@ -5,7 +5,7 @@ import ru.metaclone.users.models.enums.Gender;
 
 import java.time.LocalDate;
 
-public record SaveUserDetailsRequest(
+public record UpdateUserRequest(
         @JsonProperty("login")
         String login,
 
