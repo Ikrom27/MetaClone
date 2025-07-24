@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: media-service
+
+server:
+  port: 8083
+  host: localhost
+
+s3:
+  accessKey: ${S3_ACCESS_KEY}
+  secretKey: ${S3_SECRET_KEY}
+  endpoint: ${ENDPOINT}
+  region: ${REGION}
+  avatarsBucketName: ${AVATARS_BUCKET}
+  presignDurationSeconds: ${PRESIGN_DURATION_SECONDS}
+  basePublicUrl: ${BASE_PUBLIC_URL}
+
+secret:
+  access-token-key: ${ACCESS_TOKEN_KEN}
