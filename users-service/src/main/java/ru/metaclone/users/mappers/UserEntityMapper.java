@@ -8,10 +8,10 @@ import ru.metaclone.users.models.events.UserCreatedEvent;
 
 @Component
 public class UserEntityMapper {
-    public UserEntity mapEntityFrom(Long userId, UpdateUserRequest updateUserRequest) {
+    public UserEntity updateEntity(UserEntity oldEntity, UpdateUserRequest updateUserRequest) {
         return UserEntity.builder()
-                .userId(userId)
-                .login(updateUserRequest.login())
+                .userId(oldEntity.getUserId())
+                .login(oldEntity.getLogin())
                 .firstName(updateUserRequest.firstName())
                 .secondName(updateUserRequest.lastName())
                 .gender(updateUserRequest.gender() != null ? updateUserRequest.gender().name() : null)

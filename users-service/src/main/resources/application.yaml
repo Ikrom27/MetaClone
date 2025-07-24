@@ -41,3 +41,7 @@ kafka:
 
 secret:
   access-token-key: ${ACCESS_TOKEN_KEN}
+
+logging:
+  level:
+    org.springframework.security: DEBUG

@@ -33,7 +33,7 @@ public class TokenDataFactory {
     public TokenData createRefreshToken(List<String> defaultAuthorities, Long userId) {
         var authorities = new ArrayList<String>();
         authorities.add(Authorities.ROLE_REFRESH_TOKEN.getValue());
-        authorities.add(Authorities.ROLE_USER.getValue());
+        authorities.add(GRANT_PREFIX + Authorities.ROLE_USER.getValue());
         defaultAuthorities
                 .stream()
                 .map(authority -> GRANT_PREFIX + authority)

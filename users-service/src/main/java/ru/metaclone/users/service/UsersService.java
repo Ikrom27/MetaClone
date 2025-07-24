@@ -33,9 +33,23 @@ public class UsersService {
     }
 
     @CachePut(cacheNames = "users", key = "#userId")
+    @Transactional
     public UserResponse updateUser(Long userId, UpdateUserRequest newUser) {
-        var userEntity = userEntityMapper.mapEntityFrom(userId, newUser);
-        usersRepository.save(userEntity);
+        var userEntity = usersRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUNT_WITH_ID_MESSAGE + userId));
+
+        if (newUser.firstName() != null) {
+            userEntity.setFirstName(newUser.firstName());
+        }
+        if (newUser.lastName() != null) {
+            userEntity.setSecondName(newUser.lastName());
+        }
+        if (newUser.birthday() != null) {
+            userEntity.setBirthday(newUser.birthday());
+        }
+        if (newUser.gender() != null) {
+            userEntity.setGender(newUser.gender().getValue());
+        }
         return userEntityMapper.mapToResponse(userEntity);
     }
 

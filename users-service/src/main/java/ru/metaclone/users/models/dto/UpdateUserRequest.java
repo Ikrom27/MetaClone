@@ -6,9 +6,6 @@ import ru.metaclone.users.models.enums.Gender;
 import java.time.LocalDate;
 
 public record UpdateUserRequest(
-        @JsonProperty("login")
-        String login,
-
         @JsonProperty("first_name")
         String firstName,
 
