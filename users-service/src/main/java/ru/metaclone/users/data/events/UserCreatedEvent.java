@@ -1,11 +1,17 @@
-package ru.metaclone.users.models.dto;
+package ru.metaclone.users.data.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.metaclone.users.models.enums.Gender;
+import ru.metaclone.users.data.enums.Gender;
 
 import java.time.OffsetDateTime;
 
-public record UpdateUserRequest(
+public record UserCreatedEvent(
+        @JsonProperty("user_id")
+        Long userId,
+
+        @JsonProperty("login")
+        String login,
+
         @JsonProperty("first_name")
         String firstName,
 

@@ -1,6 +1,5 @@
-package ru.metaclone.users.models.dto;
+package ru.metaclone.users.data.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.OffsetDateTime;

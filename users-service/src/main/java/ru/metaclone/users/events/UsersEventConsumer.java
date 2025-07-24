@@ -2,8 +2,8 @@ package ru.metaclone.users.events;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import ru.metaclone.users.models.events.UserAvatarUpdatedEvent;
-import ru.metaclone.users.models.events.UserCreatedEvent;
+import ru.metaclone.users.data.events.UserAvatarUpdatedEvent;
+import ru.metaclone.users.data.events.UserCreatedEvent;
 import ru.metaclone.users.service.UsersService;
 
 @Service

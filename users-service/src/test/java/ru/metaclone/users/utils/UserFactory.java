@@ -1,10 +1,10 @@
 package ru.metaclone.users.utils;
 
 
-import ru.metaclone.users.models.entity.UserEntity;
-import ru.metaclone.users.models.enums.Gender;
-import ru.metaclone.users.models.events.UserAvatarUpdatedEvent;
-import ru.metaclone.users.models.events.UserCreatedEvent;
+import ru.metaclone.users.data.entity.UserEntity;
+import ru.metaclone.users.data.enums.Gender;
+import ru.metaclone.users.data.events.UserAvatarUpdatedEvent;
+import ru.metaclone.users.data.events.UserCreatedEvent;
 
 import java.io.IOException;
 import java.io.InputStream;

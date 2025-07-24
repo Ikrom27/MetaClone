@@ -1,4 +1,4 @@
-package ru.metaclone.users.models.dto;
+package ru.metaclone.users.data.response;
 
 import java.time.Instant;
 

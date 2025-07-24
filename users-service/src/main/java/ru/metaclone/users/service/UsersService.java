@@ -6,10 +6,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.metaclone.users.exceptions.UserNotFoundException;
 import ru.metaclone.users.mappers.UserEntityMapper;
-import ru.metaclone.users.models.dto.UpdateUserRequest;
-import ru.metaclone.users.models.dto.UserResponse;
-import ru.metaclone.users.models.events.UserAvatarUpdatedEvent;
-import ru.metaclone.users.models.events.UserCreatedEvent;
+import ru.metaclone.users.data.requests.UpdateUserRequest;
+import ru.metaclone.users.data.response.UserResponse;
+import ru.metaclone.users.data.events.UserAvatarUpdatedEvent;
+import ru.metaclone.users.data.events.UserCreatedEvent;
 import ru.metaclone.users.repository.UsersRepository;
 
 @Service
@@ -50,6 +50,7 @@ public class UsersService {
         if (newUser.gender() != null) {
             userEntity.setGender(newUser.gender().getValue());
         }
+        userEntity.setAbout(newUser.about());
         return userEntityMapper.mapToResponse(userEntity);
     }
 

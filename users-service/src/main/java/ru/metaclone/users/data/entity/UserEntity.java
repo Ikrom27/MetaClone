@@ -1,4 +1,4 @@
-package ru.metaclone.users.models.entity;
+package ru.metaclone.users.data.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

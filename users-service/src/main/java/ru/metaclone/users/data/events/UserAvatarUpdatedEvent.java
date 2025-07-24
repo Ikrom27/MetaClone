@@ -1,4 +1,4 @@
-package ru.metaclone.users.models.events;
+package ru.metaclone.users.data.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
