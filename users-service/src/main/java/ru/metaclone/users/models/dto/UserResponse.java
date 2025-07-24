@@ -3,7 +3,7 @@ package ru.metaclone.users.models.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 public record UserResponse(
         @JsonProperty("user_id")
@@ -25,8 +25,7 @@ public record UserResponse(
         String about,
 
         @JsonProperty("birthday")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        LocalDate birthday,
+        OffsetDateTime birthday,
 
         @JsonProperty("gender")
         String gender,

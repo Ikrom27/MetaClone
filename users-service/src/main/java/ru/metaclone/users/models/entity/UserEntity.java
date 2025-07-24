@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "users")
@@ -40,7 +40,7 @@ public class UserEntity {
     private String about;
 
     @Column(name = "birthday")
-    private LocalDate birthday;
+    private OffsetDateTime birthday;
 
     @Column(name = "gender")
     private String gender;

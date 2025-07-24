@@ -3,7 +3,7 @@ package ru.metaclone.users.models.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.metaclone.users.models.enums.Gender;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 public record UpdateUserRequest(
         @JsonProperty("first_name")
@@ -13,7 +13,7 @@ public record UpdateUserRequest(
         String lastName,
 
         @JsonProperty("birthday")
-        LocalDate birthday,
+        OffsetDateTime birthday,
 
         @JsonProperty("gender")
         Gender gender

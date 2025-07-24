@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import ru.metaclone.auth.model.enums.Gender;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 public record UserDetails(
         @NotNull
@@ -16,7 +16,7 @@ public record UserDetails(
 
         @NotNull
         @PastOrPresent(message = "birthday must be in the past or present")
-        LocalDate birthday,
+        OffsetDateTime birthday,
 
         @NotNull Gender gender
 ) {}

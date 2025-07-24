@@ -35,7 +35,7 @@ public class TokensService {
         tokensRepository.save(
                 tokenEntityMapper.mapFromTokenData(refreshTokenData, refreshJwt)
         );
-        return new TokensResponse(accessJwt, refreshJwt);
+        return new TokensResponse(userId, accessJwt, refreshJwt);
     }
 
     public TokensResponse refreshAccessToken(String refreshToken)
@@ -50,7 +50,7 @@ public class TokensService {
                 tokenDataFactory.createAccessToken(refreshTokenData)
         );
 
-        return new TokensResponse(accessToken, refreshToken);
+        return new TokensResponse(refreshTokenData.userId(), accessToken, refreshToken);
     }
 
     public void logout(String refreshToken) {

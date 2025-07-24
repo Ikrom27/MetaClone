@@ -2,6 +2,13 @@ package ru.metaclone.auth.model.dto;
 
 import ru.metaclone.auth.model.enums.Gender;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
-public record UserDetailsEvent(Long userId, String login, String firstName, String lastName, LocalDate birthday, Gender gender) { }
+public record UserDetailsEvent(
+        Long userId,
+        String login,
+        String firstName,
+        String lastName,
+        OffsetDateTime birthday,
+        Gender gender
+) { }

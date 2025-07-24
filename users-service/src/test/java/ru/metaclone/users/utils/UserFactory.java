@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import static org.apache.logging.log4j.util.LoaderUtil.getClassLoader;
 
@@ -21,7 +21,7 @@ public class UserFactory {
                 .login("existingUser")
                 .firstName("Petr")
                 .secondName("Petrov")
-                .birthday(LocalDate.of(2000, 5, 5))
+                .birthday(OffsetDateTime.parse("2000-05-05T00:00:00Z"))
                 .gender("MALE")
                 .avatarUrl("http://avatar.new.url")
                 .about("about")
@@ -36,7 +36,7 @@ public class UserFactory {
                 "existingUser",
                 "Petr",
                 "Petrov",
-                LocalDate.of(2000, 5, 5),
+                OffsetDateTime.parse("2000-05-05T00:00:00Z"),
                 Gender.MALE
         );
     }

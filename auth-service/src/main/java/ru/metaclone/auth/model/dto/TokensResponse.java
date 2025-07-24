@@ -1,3 +1,7 @@
 package ru.metaclone.auth.model.dto;
 
-public record TokensResponse(String accessToken, String refreshToken) {}
+public record TokensResponse(
+        Long userId,
+        String accessToken,
+        String refreshToken
+) {}
