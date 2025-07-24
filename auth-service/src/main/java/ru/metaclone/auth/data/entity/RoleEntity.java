@@ -1,4 +1,4 @@
-package ru.metaclone.auth.model.entity;
+package ru.metaclone.auth.data.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

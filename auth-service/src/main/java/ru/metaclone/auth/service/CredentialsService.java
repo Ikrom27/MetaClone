@@ -3,8 +3,8 @@ package ru.metaclone.auth.service;
 import org.springframework.stereotype.Service;
 import ru.metaclone.auth.exception.UserNotFountException;
 import ru.metaclone.auth.mapper.RegisteredUserEntityMapper;
-import ru.metaclone.auth.model.dto.UserCredentials;
-import ru.metaclone.auth.model.entity.CredentialsEntity;
+import ru.metaclone.auth.data.requests.UserCredentials;
+import ru.metaclone.auth.data.entity.CredentialsEntity;
 import ru.metaclone.auth.repository.AuthRepository;
 
 @Service

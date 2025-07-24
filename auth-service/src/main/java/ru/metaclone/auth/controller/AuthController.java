@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.metaclone.auth.model.dto.LogoutRequest;
-import ru.metaclone.auth.model.dto.LogoutResponse;
-import ru.metaclone.auth.model.dto.RefreshTokenRequest;
-import ru.metaclone.auth.model.dto.UserCredentials;
-import ru.metaclone.auth.model.dto.RegisterRequest;
-import ru.metaclone.auth.model.dto.TokensResponse;
+import ru.metaclone.auth.data.requests.LogoutRequest;
+import ru.metaclone.auth.data.response.LogoutResponse;
+import ru.metaclone.auth.data.requests.RefreshTokenRequest;
+import ru.metaclone.auth.data.requests.UserCredentials;
+import ru.metaclone.auth.data.requests.RegisterRequest;
+import ru.metaclone.auth.data.response.TokensResponse;
 import ru.metaclone.auth.service.AuthService;
 
 import java.util.List;

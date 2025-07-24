@@ -6,10 +6,8 @@ import ru.metaclone.auth.exception.InvalidTokenException;
 import ru.metaclone.auth.exception.TokenNotFoundException;
 import ru.metaclone.auth.exception.UserNotFountException;
 import ru.metaclone.auth.mapper.TokenEntityMapper;
-import ru.metaclone.auth.model.dto.TokensResponse;
-import ru.metaclone.auth.model.enums.Authorities;
-import ru.metaclone.auth.model.enums.Role;
-import ru.metaclone.auth.model.service.TokenData;
+import ru.metaclone.auth.data.response.TokensResponse;
+import ru.metaclone.auth.data.service.TokenData;
 import ru.metaclone.auth.repository.TokensRepository;
 
 import java.util.List;

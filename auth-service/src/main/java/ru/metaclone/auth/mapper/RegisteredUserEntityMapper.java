@@ -2,8 +2,8 @@ package ru.metaclone.auth.mapper;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.metaclone.auth.model.dto.UserCredentials;
-import ru.metaclone.auth.model.entity.CredentialsEntity;
+import ru.metaclone.auth.data.requests.UserCredentials;
+import ru.metaclone.auth.data.entity.CredentialsEntity;
 
 import java.util.UUID;
 

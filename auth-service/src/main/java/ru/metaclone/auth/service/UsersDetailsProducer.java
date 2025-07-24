@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ru.metaclone.auth.model.dto.UserDetailsEvent;
+import ru.metaclone.auth.data.events.UserDetailsEvent;
 
 @Component
 public class UsersDetailsProducer {

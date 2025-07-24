@@ -1,11 +1,11 @@
-package ru.metaclone.users.models.events;
+package ru.metaclone.auth.data.events;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.metaclone.users.models.enums.Gender;
+import ru.metaclone.auth.data.enums.Gender;
 
 import java.time.OffsetDateTime;
 
-public record UserCreatedEvent(
+public record UserDetailsEvent(
         @JsonProperty("user_id")
         Long userId,
 
@@ -24,3 +24,4 @@ public record UserCreatedEvent(
         @JsonProperty("gender")
         Gender gender
 ) { }
+

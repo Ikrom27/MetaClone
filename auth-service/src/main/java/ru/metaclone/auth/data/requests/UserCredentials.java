@@ -1,4 +1,4 @@
-package ru.metaclone.auth.model.dto;
+package ru.metaclone.auth.data.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

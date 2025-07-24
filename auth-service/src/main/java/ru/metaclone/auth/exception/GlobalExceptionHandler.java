@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
-import ru.metaclone.auth.model.dto.ErrorResponse;
+import ru.metaclone.auth.data.response.ErrorResponse;
 
 import java.util.HashMap;
 import java.util.Map;

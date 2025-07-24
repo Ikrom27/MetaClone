@@ -1,8 +1,8 @@
 package ru.metaclone.auth.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.metaclone.auth.model.entity.TokenEntity;
-import ru.metaclone.auth.model.service.TokenData;
+import ru.metaclone.auth.data.entity.TokenEntity;
+import ru.metaclone.auth.data.service.TokenData;
 
 @Component
 public class TokenEntityMapper {

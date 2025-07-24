@@ -5,10 +5,10 @@ import ru.metaclone.auth.exception.InvalidTokenException;
 import ru.metaclone.auth.exception.UserAlreadyExistException;
 import ru.metaclone.auth.exception.UserNotFountException;
 import ru.metaclone.auth.mapper.UserDetailsEventMapper;
-import ru.metaclone.auth.model.dto.LogoutResponse;
-import ru.metaclone.auth.model.dto.UserCredentials;
-import ru.metaclone.auth.model.dto.UserDetails;
-import ru.metaclone.auth.model.dto.TokensResponse;
+import ru.metaclone.auth.data.response.LogoutResponse;
+import ru.metaclone.auth.data.requests.UserCredentials;
+import ru.metaclone.auth.data.requests.UserDetails;
+import ru.metaclone.auth.data.response.TokensResponse;
 
 import java.util.List;
 

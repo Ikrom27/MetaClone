@@ -1,4 +1,4 @@
-package ru.metaclone.auth.model.dto;
+package ru.metaclone.auth.data.response;
 
 public record TokensResponse(
         Long userId,

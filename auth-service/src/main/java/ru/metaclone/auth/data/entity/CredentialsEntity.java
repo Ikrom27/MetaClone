@@ -1,4 +1,4 @@
-package ru.metaclone.auth.model.entity;
+package ru.metaclone.auth.data.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,4 +1,4 @@
-package ru.metaclone.auth.model.enums;
+package ru.metaclone.auth.data.enums;
 
 import lombok.Getter;
 

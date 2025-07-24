@@ -3,8 +3,8 @@ package ru.metaclone.auth.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.metaclone.auth.model.enums.Authorities;
-import ru.metaclone.auth.model.service.TokenData;
+import ru.metaclone.auth.data.enums.Authorities;
+import ru.metaclone.auth.data.service.TokenData;
 
 import java.util.ArrayList;
 import java.util.List;

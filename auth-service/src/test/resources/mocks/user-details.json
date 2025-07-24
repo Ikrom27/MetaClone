@@ -1,6 +1,6 @@
 {
-  "firstName": "User6",
-  "lastName": "Doe",
+  "first_name": "User6",
+  "last_name": "Doe",
   "birthday": "2000-05-05T00:00:00Z",
   "gender": "MALE"
 }

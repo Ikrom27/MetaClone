@@ -1,4 +1,4 @@
-package ru.metaclone.auth.model.service;
+package ru.metaclone.auth.data.service;
 
 import java.util.List;
 import java.util.UUID;
