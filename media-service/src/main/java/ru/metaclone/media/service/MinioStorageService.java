@@ -14,8 +14,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -33,11 +31,11 @@ public class MinioStorageService implements IStorageService {
     private static final String PERMANENT_DIR = "permanent/";
 
     @Override
-    public PresignedUrl generatePreSignedUrl(Long userId, String fileName) {
+    public PresignedUrl generatePreSignedUrl(Long userId, String fileName, String bucketName) {
         String objectKey = userId + "/" + TEMP_DIR + UUID.randomUUID() + "-" + fileName;
 
         var putObjectRequest = PutObjectRequest.builder()
-                .bucket(storageProperties.getBucketName())
+                .bucket(bucketName)
                 .key(objectKey)
                 .build();
 
@@ -60,12 +58,12 @@ public class MinioStorageService implements IStorageService {
     }
 
     @Override
-    public String generatePublicUrl(Long userId, String objectKey) {
-        String publicKey = confirmUpload(userId, objectKey);
-        return storageProperties.getPublicBaseUrl() + "/" + URLEncoder.encode(publicKey, StandardCharsets.UTF_8);
+    public String generatePublicUrl(Long userId, String objectKey, String bucketName) {
+        String publicKey = confirmUpload(userId, objectKey, bucketName);
+        return storageProperties.getPublicBaseUrl() + "/" + bucketName + "/" + publicKey;
     }
 
-    public String confirmUpload(Long userId, String objectKey) {
+    public String confirmUpload(Long userId, String objectKey, String bucketName) {
         String expectedPrefix = userId + "/" + TEMP_DIR;
         if (!objectKey.startsWith(expectedPrefix)) {
             throw new InvalidObjectKeyException("Object key must start with '" + expectedPrefix + "'");
@@ -75,7 +73,7 @@ public class MinioStorageService implements IStorageService {
 
         try {
             s3Client.headObject(HeadObjectRequest.builder()
-                    .bucket(storageProperties.getBucketName())
+                    .bucket(bucketName)
                     .key(objectKey)
                     .build());
         } catch (Exception e) {
@@ -83,14 +81,14 @@ public class MinioStorageService implements IStorageService {
         }
 
         s3Client.copyObject(CopyObjectRequest.builder()
-                .sourceBucket(storageProperties.getBucketName())
+                .sourceBucket(bucketName)
                 .sourceKey(objectKey)
-                .destinationBucket(storageProperties.getBucketName())
+                .destinationBucket(bucketName)
                 .destinationKey(permanentKey)
                 .build());
 
         s3Client.deleteObject(DeleteObjectRequest.builder()
-                .bucket(storageProperties.getBucketName())
+                .bucket(bucketName)
                 .key(objectKey)
                 .build());
 
