@@ -1,7 +1,6 @@
 package ru.metaclone.users.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +9,10 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import ru.metaclone.users.data.response.UserResponse;
 
 import java.time.Duration;
 
@@ -20,17 +21,18 @@ import java.time.Duration;
 public class RedisConfig {
 
     @Bean
-    public ObjectMapper redisObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
+    public ObjectMapper objectMapper() {
+        var mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return mapper;
     }
 
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory,
-                                                ObjectMapper redisObjectMapper) {
-        var config = RedisCacheConfiguration.defaultCacheConfig()
+    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+        var serializer = new Jackson2JsonRedisSerializer<>(objectMapper(), UserResponse.class);
+        var config = RedisCacheConfiguration
+                .defaultCacheConfig()
                 .serializeKeysWith(
                         RedisSerializationContext
                                 .SerializationPair
@@ -39,7 +41,7 @@ public class RedisConfig {
                 .serializeValuesWith(
                         RedisSerializationContext
                                 .SerializationPair
-                                .fromSerializer(new GenericJackson2JsonRedisSerializer(redisObjectMapper))
+                                .fromSerializer(serializer)
                 )
                 .entryTtl(Duration.ofMinutes(10));
 

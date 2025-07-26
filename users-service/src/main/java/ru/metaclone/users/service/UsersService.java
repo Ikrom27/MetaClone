@@ -1,9 +1,12 @@
 package ru.metaclone.users.service;
 
 import jakarta.transaction.Transactional;
-import org.springframework.cache.annotation.CachePut;
+import lombok.AllArgsConstructor;
+import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Service;
+import ru.metaclone.users.data.entity.UserEntity;
 import ru.metaclone.users.exceptions.UserNotFoundException;
 import ru.metaclone.users.mappers.UserEntityMapper;
 import ru.metaclone.users.data.requests.UpdateUserRequest;
@@ -13,18 +16,16 @@ import ru.metaclone.users.data.events.UserCreatedEvent;
 import ru.metaclone.users.repository.UsersRepository;
 
 @Service
+@AllArgsConstructor
 public class UsersService {
     private final UsersRepository usersRepository;
     private final UserEntityMapper userEntityMapper;
+    private final RedisCacheManager cacheManager;
 
     private static final String USER_NOT_FOUNT_WITH_ID_MESSAGE = "User with this id not found, id: ";
+    private static final String USERS_CACHE = "users";
 
-    public UsersService(UsersRepository usersRepository, UserEntityMapper userEntityMapper) {
-        this.usersRepository = usersRepository;
-        this.userEntityMapper = userEntityMapper;
-    }
-
-    @Cacheable(cacheNames = "users", key = "#userId")
+    @Cacheable(cacheNames = USERS_CACHE, key = "#userId")
     public UserResponse getUserById(Long userId) {
         var response = usersRepository.findById(userId)
                 .map(userEntityMapper::mapToResponse)
@@ -32,7 +33,6 @@ public class UsersService {
         return response;
     }
 
-    @CachePut(cacheNames = "users", key = "#userId")
     @Transactional
     public UserResponse updateUser(Long userId, UpdateUserRequest newUser) {
         var userEntity = usersRepository.findById(userId)
@@ -51,6 +51,7 @@ public class UsersService {
             userEntity.setGender(newUser.gender().getValue());
         }
         userEntity.setAbout(newUser.about());
+        updateCache(userEntity);
         return userEntityMapper.mapToResponse(userEntity);
     }
 
@@ -64,5 +65,14 @@ public class UsersService {
         var user = usersRepository.findById(event.userId())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUNT_WITH_ID_MESSAGE + event.userId()));
         user.setAvatarUrl(event.avatarUrl());
+        updateCache(user);
+    }
+
+    private void updateCache(UserEntity userEntity) {
+        UserResponse response = userEntityMapper.mapToResponse(userEntity);
+        Cache cache = cacheManager.getCache(USERS_CACHE);
+        if (cache != null) {
+            cache.put(userEntity.getUserId(), response);
+        }
     }
 }
