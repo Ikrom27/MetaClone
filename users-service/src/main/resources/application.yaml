@@ -2,15 +2,6 @@ spring:
   application:
     name: users-service
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: ${USERS_GROUP}
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: ru.metaclone.users.data.events
-
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
     username: ${DB_USERNAME:postgres}
@@ -38,12 +29,12 @@ server:
   host: localhost
 
 kafka:
+  bootstrap-servers: localhost:9092
   topic:
-    user-events: ${AUTH_TOPIC}
-    user-avatar-update: ${USER_AVATAR_UPDATE_TOPIC}
+    user-events: auth.user.created
+    avatar-update: avatar.update
   group-id:
-    users: ${USERS_GROUP}
-    user-avatar-update: user-avatar-updated
+    users-service: users-service
 
 secret:
   access-token-key: ${ACCESS_TOKEN_KEN}
