@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.androidx.compose.koinViewModel
 import ru.metaclone.auth_repository.model.Gender
 import ru.metaclone.authorization.viewmodel.RegisterViewModel
@@ -46,10 +47,27 @@ fun RegistrationScreen(
     defaultLoginValue: String = "",
     onBackClick: () -> Unit
 ) {
+    UiRegistrationScreen(
+        defaultLoginValue = defaultLoginValue,
+        viewModel = viewModel,
+        onBackClick = onBackClick
+    )
+}
+
+@Composable
+private fun UiRegistrationScreen(
+    defaultLoginValue: String,
+    viewModel: RegisterViewModel,
+    onBackClick: () -> Unit
+) {
     val context = LocalContext.current
 
     val isNotSamePasswordsText = stringResource(AppStrings.passwordsIsNotSame)
     val incorrectFieldsText = stringResource(AppStrings.incorrectFields)
+
+    val modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 24.dp)
 
     var firstName by rememberSaveable { mutableStateOf("") }
     var lastName by rememberSaveable { mutableStateOf("") }
@@ -60,96 +78,35 @@ fun RegistrationScreen(
     var birthdayMillis by rememberSaveable { mutableLongStateOf(System.currentTimeMillis()) }
     var gender by rememberSaveable { mutableStateOf<Gender?>(null) }
 
-    fun validatePasswords() {
-        passwordError = if (confirmPassword.isNotBlank() && confirmPassword != password) {
-            isNotSamePasswordsText
-        } else {
-            ""
-        }
-    }
     val isValidFields = firstName.isNotBlank() && lastName.isNotBlank() && login.isNotBlank() &&
             password.isNotBlank() && gender != null && passwordError.isEmpty()
 
-    UiRegistrationScreen(
-        firstName = firstName,
-        onFirstNameChanged = { firstName = it },
-        lastName = lastName,
-        onLastNameChanged = { lastName = it },
-        login = login,
-        onLoginChanged = { login = it },
-        password = password,
-        onPasswordChanged = {
-            password = it
-            validatePasswords()
-        },
-        confirmPassword = confirmPassword,
-        onConfirmPasswordChanged = {
-            confirmPassword = it
-            validatePasswords()
-        },
-        passwordError = passwordError,
-        selectedDate = birthdayMillis,
-        onDateChanged = { birthdayMillis = it },
-        gender = gender,
-        onGenderSelected = { gender = it },
-        onRegisterClick = {
-            if (isValidFields) {
-                viewModel.registerUser(
-                    firstName = firstName,
-                    lastName = lastName,
-                    gender = gender!!,
-                    birthday = birthdayMillis,
-                    login = login,
-                    password = password
-                )
-            } else {
-                Toast.makeText(context, incorrectFieldsText, Toast.LENGTH_SHORT).show()
-            }
-        },
-        onBackClick = onBackClick
-    )
-}
-
-@Composable
-private fun UiRegistrationScreen(
-    firstName: String,
-    onFirstNameChanged: (String) -> Unit,
-    lastName: String,
-    onLastNameChanged: (String) -> Unit,
-    login: String,
-    onLoginChanged: (String) -> Unit,
-    gender: Gender?,
-    onGenderSelected: (Gender) -> Unit,
-    password: String,
-    onPasswordChanged: (String) -> Unit,
-    confirmPassword: String,
-    onConfirmPasswordChanged: (String) -> Unit,
-    passwordError: String,
-    selectedDate: Long,
-    onDateChanged: (Long) -> Unit,
-    onRegisterClick: () -> Unit,
-    onBackClick: () -> Unit
-) {
-    val modifier = Modifier.fillMaxWidth().padding(top = 24.dp)
+    fun validatePasswords() {
+        passwordError =
+            if (confirmPassword.isNotBlank() && confirmPassword != password)
+                isNotSamePasswordsText
+            else
+                ""
+    }
 
     Scaffold(
-       topBar = {
-           Box(
-               modifier = Modifier
-                   .padding(start = 16.dp, top = 16.dp + statusBarHeightDp())
-                   .size(24.dp)
-                   .background(MaterialTheme.colorScheme.surface)
-                   .clickable(onClick = onBackClick)
-           ) {
-               Icon(
-                   painter = painterResource(AppIcons.chevronLeft),
-                   tint = MaterialTheme.colorScheme.primary,
-                   contentDescription = null
-               )
-           }
-       }
+        topBar = {
+            Box(
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 16.dp + statusBarHeightDp())
+                    .size(24.dp)
+                    .background(MaterialTheme.colorScheme.surface)
+                    .clickable(onClick = onBackClick)
+            ) {
+                Icon(
+                    painter = painterResource(AppIcons.chevronLeft),
+                    tint = MaterialTheme.colorScheme.primary,
+                    contentDescription = null
+                )
+            }
+        }
     ) { innerPadding ->
-        LazyColumn (
+        LazyColumn(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -170,14 +127,14 @@ private fun UiRegistrationScreen(
                     modifier = modifier,
                     label = stringResource(AppStrings.firstName),
                     value = firstName,
-                    onValueChanged = onFirstNameChanged
+                    onValueChanged = { firstName = it }
                 )
 
                 UiAuthFormTextField(
                     modifier = modifier,
                     label = stringResource(AppStrings.lastName),
                     value = lastName,
-                    onValueChanged = onLastNameChanged
+                    onValueChanged = { lastName = it }
                 )
 
                 UiSelector(
@@ -187,7 +144,7 @@ private fun UiRegistrationScreen(
                         SelectorOption(it.value, it)
                     },
                     onOptionSelected = { option ->
-                        onGenderSelected(option.value as Gender)
+                        gender = option.value as Gender
                     },
                     options = listOf(
                         SelectorOption(Gender.MALE.value, Gender.MALE),
@@ -197,28 +154,34 @@ private fun UiRegistrationScreen(
 
                 UiDateField(
                     modifier = modifier,
-                    selectedDateMillis = selectedDate,
-                    onDateSelected = onDateChanged
+                    selectedDateMillis = birthdayMillis,
+                    onDateSelected = { birthdayMillis = it }
                 )
 
                 UiAuthFormTextField(
                     modifier = modifier,
                     label = stringResource(AppStrings.login),
                     value = login,
-                    onValueChanged = onLoginChanged
+                    onValueChanged = { login = it }
                 )
 
                 UiAuthFormPasswordField(
                     modifier = modifier,
                     value = password,
-                    onValueChanged = onPasswordChanged
+                    onValueChanged = {
+                        password = it
+                        validatePasswords()
+                    }
                 )
 
                 UiAuthFormPasswordField(
                     modifier = modifier,
                     label = stringResource(AppStrings.confirmPassword),
                     value = confirmPassword,
-                    onValueChanged = onConfirmPasswordChanged,
+                    onValueChanged = {
+                        confirmPassword = it
+                        validatePasswords()
+                    },
                     isError = passwordError.isNotBlank(),
                     errorText = passwordError
                 )
@@ -226,7 +189,19 @@ private fun UiRegistrationScreen(
                 UiAuthButton(
                     modifier = modifier,
                     text = stringResource(AppStrings.register),
-                    onClick = onRegisterClick
+                    onClick = {
+                        if (isValidFields)
+                            viewModel.registerUser(
+                                firstName = firstName,
+                                lastName = lastName,
+                                gender = gender!!,
+                                birthday = birthdayMillis,
+                                login = login,
+                                password = password
+                            )
+                        else
+                            Toast.makeText(context, incorrectFieldsText, Toast.LENGTH_SHORT).show()
+                    }
                 )
             }
         }
@@ -237,22 +212,8 @@ private fun UiRegistrationScreen(
 @Composable
 fun RegistrationPreview() {
     UiRegistrationScreen(
-        firstName = "Имя",
-        onFirstNameChanged = {},
-        lastName = "Фамилия",
-        onLastNameChanged = {},
-        login = "логин",
-        onLoginChanged = {},
-        gender = Gender.MALE,
-        onGenderSelected = {},
-        password = "1234",
-        onPasswordChanged = {},
-        confirmPassword = "1234",
-        onConfirmPasswordChanged = {},
-        passwordError = "",
-        selectedDate = System.currentTimeMillis(),
-        onDateChanged = {},
-        onRegisterClick = {},
-        onBackClick = {}
+        defaultLoginValue = "",
+        viewModel = viewModel(),
+        onBackClick = { }
     )
 }
