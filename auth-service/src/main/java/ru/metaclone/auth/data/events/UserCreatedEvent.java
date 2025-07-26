@@ -5,7 +5,7 @@ import ru.metaclone.auth.data.enums.Gender;
 
 import java.time.OffsetDateTime;
 
-public record UserDetailsEvent(
+public record UserCreatedEvent(
         @JsonProperty("user_id")
         Long userId,
 
