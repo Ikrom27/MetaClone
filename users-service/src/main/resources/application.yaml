@@ -1,22 +1,37 @@
 spring:
   application:
     name: users-service
+
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: ${USERS_GROUP}
-      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        "spring.json.trusted.packages": "*"
-        "spring.json.value.default.type": "ru.metaclone.users.models.events.UserCreatedEvent"
+        spring.json.trusted.packages: ru.metaclone.users.data.events
 
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: ${USERS_CACHE_TTL}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8082
@@ -25,8 +40,14 @@ server:
 kafka:
   topic:
     user-events: ${AUTH_TOPIC}
+    user-avatar-update: ${USER_AVATAR_UPDATE_TOPIC}
   group-id:
     users: ${USERS_GROUP}
+    user-avatar-update: user-avatar-updated
 
 secret:
   access-token-key: ${ACCESS_TOKEN_KEN}
+
+logging:
+  level:
+    org.springframework.security: DEBUG

@@ -1,0 +1,8 @@
+{
+  "user_id": 1,
+  "login": "testinglogin",
+  "first_name": "User6",
+  "last_name": "Doe",
+  "birthday": "2000-05-05T00:00:00Z",
+  "gender": "MALE"
+}

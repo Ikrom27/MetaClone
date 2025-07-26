@@ -8,11 +8,18 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600s
+
 kafka:
   topic:
-    user-events: user-events
+    user-events: user-event
+    user-avatar-update: user.avatar.update
   group-id:
-    users: users-service
+    users: user-group
+    user-avatar-update: user-avatar-updated
 
 secret:
   access-token-key: SDFSDFS34234DSFSDFDSDDFASDF32432J3H41L2JKH34KJL12H3J414H2L

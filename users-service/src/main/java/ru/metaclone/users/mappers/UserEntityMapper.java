@@ -1,24 +1,13 @@
 package ru.metaclone.users.mappers;
 
 import org.springframework.stereotype.Component;
-import ru.metaclone.users.models.dto.SaveUserDetailsRequest;
-import ru.metaclone.users.models.dto.UserResponse;
-import ru.metaclone.users.models.entity.UserEntity;
-import ru.metaclone.users.models.events.UserCreatedEvent;
+import ru.metaclone.users.data.requests.UpdateUserRequest;
+import ru.metaclone.users.data.response.UserResponse;
+import ru.metaclone.users.data.entity.UserEntity;
+import ru.metaclone.users.data.events.UserCreatedEvent;
 
 @Component
 public class UserEntityMapper {
-    public UserEntity mapEntityFrom(Long userId, SaveUserDetailsRequest saveUserDetailsRequest) {
-        return UserEntity.builder()
-                .userId(userId)
-                .login(saveUserDetailsRequest.login())
-                .firstName(saveUserDetailsRequest.firstName())
-                .secondName(saveUserDetailsRequest.lastName())
-                .gender(saveUserDetailsRequest.gender() != null ? saveUserDetailsRequest.gender().name() : null)
-                .birthday(saveUserDetailsRequest.birthday())
-                .build();
-    }
-
     public UserEntity mapEntityFrom(UserCreatedEvent userCreatedEvent) {
         return UserEntity.builder()
                 .userId(userCreatedEvent.userId())

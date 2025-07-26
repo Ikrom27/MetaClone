@@ -2,7 +2,7 @@
   "login": "existingUser",
   "first_name": "Petr",
   "second_name": "Petrov",
-  "birthday": "2000-05-05",
+  "birthday": "2000-05-05T00:00:00Z",
   "gender": "MALE",
   "avatar_url": null,
   "about": null,
