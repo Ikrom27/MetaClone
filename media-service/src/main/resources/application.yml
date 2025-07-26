@@ -1,6 +1,8 @@
 spring:
   application:
     name: media-service
+    kafka:
+      bootstrap-servers: ${KAFKA_SERVER}
 
 server:
   port: 8083
@@ -17,3 +19,7 @@ s3:
 
 secret:
   access-token-key: ${ACCESS_TOKEN_KEN}
+
+kafka:
+  topic:
+    avatar-update: avatar.update

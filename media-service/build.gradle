@@ -25,6 +25,9 @@ repositories {
 }
 
 dependencies {
+	//kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+
 	//security
 	implementation 'ru.metaclone:shared-security:0.0.1-SNAPSHOT'
 
