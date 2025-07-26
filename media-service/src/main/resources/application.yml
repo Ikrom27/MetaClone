@@ -17,3 +17,8 @@ s3:
 
 secret:
   access-token-key: ${ACCESS_TOKEN_KEN}
+
+kafka:
+  bootstrap-servers: ${KAFKA_SERVER}
+  topic:
+    avatar-update: avatar.update

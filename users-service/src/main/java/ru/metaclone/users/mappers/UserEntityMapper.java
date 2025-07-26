@@ -1,7 +1,6 @@
 package ru.metaclone.users.mappers;
 
 import org.springframework.stereotype.Component;
-import ru.metaclone.users.data.requests.UpdateUserRequest;
 import ru.metaclone.users.data.response.UserResponse;
 import ru.metaclone.users.data.entity.UserEntity;
 import ru.metaclone.users.data.events.UserCreatedEvent;

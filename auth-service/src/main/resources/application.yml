@@ -16,14 +16,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: myGroup
-
 server:
   port: 8081
   host: localhost
+
+kafka:
+  bootstrap-servers: ${KAFKA_SERVER}
 
 secret:
   access-token-key: ${SECRET_ACCESS_TOKEN_KEY}

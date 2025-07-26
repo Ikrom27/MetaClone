@@ -17,17 +17,17 @@ public class UsersEventConsumer {
 
     @KafkaListener(
             topics = "${kafka.topic.user-events}",
-            groupId = "${kafka.group-id.users}",
-            containerFactory = "kafkaListenerContainerFactory"
+            groupId = "${kafka.group-id.users-service}",
+            containerFactory = "userCreatedContainerFactory"
     )
     public void consumeUserCreatedEvents(UserCreatedEvent userCreatedEvent) {
         usersService.createNewUserFromEvent(userCreatedEvent);
     }
 
     @KafkaListener(
-            topics = "${kafka.topic.user-avatar-update}",
-            groupId = "${kafka.group-id.user-avatar-update}",
-            containerFactory = "kafkaListenerContainerFactory"
+            topics = "${kafka.topic.avatar-update}",
+            groupId = "${kafka.group-id.users-service}",
+            containerFactory = "avatarUpdatedContainerFactory"
     )
     public void consumeUserAvatarUpdatedEvent(UserAvatarUpdatedEvent userAvatarUpdatedEvent) {
         usersService.updateAvatarFromEvent(userAvatarUpdatedEvent);
