@@ -3,29 +3,30 @@ spring:
     name: auth-service
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:metaclone_auth}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${AUTH_DB_HOST}:${AUTH_DB_PORT}/${AUTH_DB_NAME}
+    username: ${AUTH_DB_USERNAME}
+    password: ${AUTH_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${AUTH_DB_AUTO_UPDATE:none}
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8081
-  host: localhost
+  host: ${AUTH_HOST}
+  port: ${AUTH_PORT}
 
 kafka:
   bootstrap-servers: ${KAFKA_SERVER}
+  topic:
+    user-created: ${KAFKA_TOPIC_USER_CREATED}
 
 secret:
   access-token-key: ${SECRET_ACCESS_TOKEN_KEY}
   refresh-token-key: ${SECRET_REFRESH_TOKEN_KEY}
   access-token-ttl: ${SECRET_ACCESS_TOKEN_TTL}
   refresh-token-ttl: ${SECRET_REFRESH_TOKEN_TTL}
-  event-auth-topic: ${EVENT_AUTH_TOPIC}

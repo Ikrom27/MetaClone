@@ -17,7 +17,7 @@ import ru.metaclone.users.secury.UserContext;
 import ru.metaclone.users.service.UsersService;
 
 @RestController
-@RequestMapping("users/v1")
+@RequestMapping("/api/v1/users")
 @Validated
 @AllArgsConstructor
 public class UsersController {

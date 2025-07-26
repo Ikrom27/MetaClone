@@ -21,7 +21,7 @@ import ru.metaclone.auth.service.AuthService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/auth")
+@RequestMapping("/api/v1/auth")
 @Validated
 @AllArgsConstructor
 public class AuthController {

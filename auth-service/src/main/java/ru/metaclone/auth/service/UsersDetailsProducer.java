@@ -8,7 +8,7 @@ import ru.metaclone.auth.data.events.UserCreatedEvent;
 @Component
 public class UsersDetailsProducer {
 
-    @Value("${secret.event-auth-topic}")
+    @Value("${kafka.topic.user-created}")
     private String AUTH_TOPIC;
 
     private final KafkaTemplate<String, UserCreatedEvent> kafka;

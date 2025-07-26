@@ -3,17 +3,17 @@ spring:
     name: media-service
 
 server:
-  port: 8083
-  host: localhost
+  host: ${MEDIA_HOST}
+  port: ${MEDIA_PORT}
 
 s3:
   accessKey: ${S3_ACCESS_KEY}
   secretKey: ${S3_SECRET_KEY}
-  endpoint: ${ENDPOINT}
-  region: ${REGION}
+  endpoint: ${S3_ENDPOINT}
+  region: ${S3_REGION}
   avatarsBucketName: ${AVATARS_BUCKET}
   presignDurationSeconds: ${PRESIGN_DURATION_SECONDS}
-  basePublicUrl: ${BASE_PUBLIC_URL}
+  basePublicUrl: ${S3_BASE_PUBLIC_URL}
 
 secret:
   access-token-key: ${ACCESS_TOKEN_KEN}
@@ -21,4 +21,4 @@ secret:
 kafka:
   bootstrap-servers: ${KAFKA_SERVER}
   topic:
-    avatar-update: avatar.update
+    avatar-update: ${KAFKA_TOPIC_AVATAR_UPDATED}

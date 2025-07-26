@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/users/v1/update/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/users/update/**").authenticated()
                         .anyRequest().denyAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

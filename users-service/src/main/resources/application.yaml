@@ -1,20 +1,25 @@
+server:
+  host: ${USERS_HOST}
+  port: ${USERS_PORT}
+
 spring:
   application:
     name: users-service
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${USERS_DB_HOST}:${USERS_DB_PORT}/${USERS_DB_NAME}
+    username: ${USERS_DB_USERNAME:postgres}
+    password: ${USERS_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   cache:
     type: redis
     redis:
       time-to-live: ${USERS_CACHE_TTL}
+
   redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
+    host: ${USERS_REDIS_HOST}
+    port: ${USERS_REDIS_PORT}
 
   jpa:
     hibernate:
@@ -24,21 +29,25 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-server:
-  port: 8082
-  host: localhost
-
 kafka:
-  bootstrap-servers: localhost:9092
+  bootstrap-servers: ${KAFKA_SERVER}
   topic:
-    user-events: auth.user.created
-    avatar-update: avatar.update
+    user-events: ${KAFKA_TOPIC_USER_CREATED}
+    avatar-update: ${KAFKA_TOPIC_AVATAR_UPDATED}
   group-id:
-    users-service: users-service
+    users-service: ${KAFKA_USERS_GROUP}
 
 secret:
-  access-token-key: ${ACCESS_TOKEN_KEN}
+  access-token-key: ${SECRET_ACCESS_TOKEN_KEY}
 
 logging:
   level:
     org.springframework.security: DEBUG
+    com:
+      fasterxml:
+        jackson:
+          databind=DEBUG:
+    org:
+      springframework:
+        data:
+          redis=DEBUG:
