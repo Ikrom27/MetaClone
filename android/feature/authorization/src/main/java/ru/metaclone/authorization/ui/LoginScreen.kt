@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.androidx.compose.koinViewModel
 import ru.metaclone.authorization.viewmodel.LoginViewModel
 import ru.metaclone.theme.AppDimens
@@ -33,42 +34,22 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = koinViewModel(),
     onRegisterNavigate: (String) -> Unit
 ) {
-    var loginValue by remember { mutableStateOf("") }
-    var passwordValue by remember { mutableStateOf("") }
-
-    val context = LocalContext.current
-    val incorrectFieldsText = stringResource(AppStrings.incorrectFields)
-
     UiLoginForm(
-        loginValue = loginValue,
-        onLoginChanged = { loginValue = it },
-        passwordValue = passwordValue,
-        onPasswordChanged = { passwordValue = it },
-        onLoginClick = {
-            if (loginValue.isNotBlank() && passwordValue.isNotBlank()) {
-                loginViewModel.login(
-                    login = loginValue,
-                    password = passwordValue
-                )
-            } else {
-                Toast.makeText(context, incorrectFieldsText, Toast.LENGTH_SHORT).show()
-            }
-        },
-        onRegisterClick = {
-            onRegisterNavigate(loginValue)
-        }
+        loginViewModel = loginViewModel,
+        onRegisterClick = onRegisterNavigate
     )
 }
 
 @Composable
 fun UiLoginForm(
-    loginValue: String,
-    onLoginChanged: (String) -> Unit,
-    passwordValue: String,
-    onPasswordChanged: (String) -> Unit,
-    onRegisterClick: () -> Unit,
-    onLoginClick: () -> Unit
+    loginViewModel: LoginViewModel,
+    onRegisterClick: (String) -> Unit,
 ) {
+    val context = LocalContext.current
+    val incorrectFieldsText = stringResource(AppStrings.incorrectFields)
+    var loginValue by remember { mutableStateOf("") }
+    var passwordValue by remember { mutableStateOf("") }
+
     val loginFormModifier = Modifier
         .padding(top = 24.dp)
         .fillMaxWidth()
@@ -90,12 +71,12 @@ fun UiLoginForm(
             modifier = loginFormModifier,
             label = stringResource(AppStrings.login),
             value = loginValue,
-            onValueChanged = onLoginChanged
+            onValueChanged = { loginValue = it }
         )
         UiAuthFormPasswordField(
             modifier = loginFormModifier,
             value = passwordValue,
-            onValueChanged = onPasswordChanged
+            onValueChanged = { passwordValue = it }
         )
         Row(
             modifier = loginFormModifier
@@ -105,13 +86,24 @@ fun UiLoginForm(
                 text = stringResource(AppStrings.register),
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
-                    .clickable(onClick = onRegisterClick)
+                    .clickable {
+                        onRegisterClick(loginValue)
+                    }
             )
         }
         UiAuthButton(
             modifier = loginFormModifier,
             text = stringResource(AppStrings.login),
-            onClick = onLoginClick
+            onClick = {
+                if (loginValue.isNotBlank() && passwordValue.isNotBlank())
+                    loginViewModel.login(
+                        login = loginValue,
+                        password = passwordValue
+                    )
+                else
+                    Toast.makeText(context, incorrectFieldsText, Toast.LENGTH_SHORT).show()
+
+            }
         )
     }
 }
@@ -120,11 +112,7 @@ fun UiLoginForm(
 @Composable
 private fun LoginPreview() {
     UiLoginForm(
-        loginValue = "PreviewLogin",
-        onLoginChanged = {},
-        passwordValue = "PreviewPassword",
-        onPasswordChanged = {},
         onRegisterClick = {},
-        onLoginClick = {}
+        loginViewModel = viewModel()
     )
 }
