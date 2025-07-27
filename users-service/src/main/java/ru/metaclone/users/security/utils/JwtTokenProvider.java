@@ -1,25 +1,26 @@
-package ru.metaclone.users.secury;
+package ru.metaclone.users.security.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import ru.metaclone.users.exceptions.InvalidTokenException;
-import ru.metaclone.users.exceptions.TokenExpiredException;
+import ru.metaclone.users.security.exceptions.InvalidTokenException;
+import ru.metaclone.users.security.exceptions.TokenExpiredException;
+import ru.metaclone.users.security.model.UserContext;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${secret.access-token-key}")
-    private String ACCESS_TOKEN_KEY;
+    private final String ACCESS_TOKEN_KEY;
 
     private static final String AUTHORITIES_KEY = "AUTHORITIES";
     private static final String USER_ID_KEY = "USER_ID";
@@ -36,7 +37,7 @@ public class JwtTokenProvider {
         );
     }
 
-    private Claims parseToken(String token, String key) throws InvalidTokenException {
+    private Claims parseToken(String token, String key) throws InvalidTokenException, TokenExpiredException {
         try {
             SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
             return Jwts.parser()

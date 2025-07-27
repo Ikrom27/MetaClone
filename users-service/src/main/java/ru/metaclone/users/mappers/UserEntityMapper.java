@@ -12,7 +12,7 @@ public class UserEntityMapper {
                 .userId(userCreatedEvent.userId())
                 .login(userCreatedEvent.login())
                 .firstName(userCreatedEvent.firstName())
-                .secondName(userCreatedEvent.lastName())
+                .lastName(userCreatedEvent.lastName())
                 .gender(userCreatedEvent.gender() != null ? userCreatedEvent.gender().name() : null)
                 .birthday(userCreatedEvent.birthday())
                 .build();
@@ -23,7 +23,7 @@ public class UserEntityMapper {
                 userEntity.getUserId(),
                 userEntity.getLogin(),
                 userEntity.getFirstName(),
-                userEntity.getSecondName(),
+                userEntity.getLastName(),
                 userEntity.getAvatarUrl(),
                 userEntity.getAbout(),
                 userEntity.getBirthday(),

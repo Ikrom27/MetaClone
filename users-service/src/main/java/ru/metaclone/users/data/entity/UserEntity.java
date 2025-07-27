@@ -30,8 +30,8 @@ public class UserEntity {
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "second_name", nullable = false)
-    private String secondName;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @Column(name = "avatar_url")
     private String avatarUrl;

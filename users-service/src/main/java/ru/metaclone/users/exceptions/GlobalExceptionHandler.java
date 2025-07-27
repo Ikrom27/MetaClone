@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import ru.metaclone.users.data.response.ErrorResponse;
+import ru.metaclone.users.security.exceptions.BaseSecurityException;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -26,6 +27,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ErrorResponse> handleBaseException(BaseException ex, HttpServletRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                Instant.now(),
+                ex.getStatus().value(),
+                ex.getCode(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(ex.getStatus()).body(errorResponse);
+    }
+
+    @ExceptionHandler(BaseSecurityException.class)
+    public ResponseEntity<ErrorResponse> handleSecurityException(BaseException ex, HttpServletRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 Instant.now(),
                 ex.getStatus().value(),

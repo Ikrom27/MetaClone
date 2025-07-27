@@ -1,6 +1,7 @@
 package ru.metaclone.users.config;
 
-import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,27 +11,32 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.metaclone.users.secury.JwtAuthenticationFilter;
-import ru.metaclone.users.secury.JwtTokenProvider;
+import ru.metaclone.users.security.filter.JwtAuthenticationFilter;
+import ru.metaclone.users.security.utils.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    @Value("${secret.access-token-key}")
+    private String ACCESS_TOKEN_KEY;
 
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    @Bean
+    public JwtTokenProvider jwtTokenProvider() {
+        return new JwtTokenProvider(ACCESS_TOKEN_KEY);
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtTokenProvider jwtTokenProvider) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/*/followers").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/*/following").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/*/follow").authenticated()
                         .requestMatchers(HttpMethod.PUT,"/api/v1/users/update/**").authenticated()
                         .anyRequest().denyAll()
                 )

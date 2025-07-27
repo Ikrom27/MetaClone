@@ -1,8 +1,8 @@
-package ru.metaclone.users.exceptions;
+package ru.metaclone.users.security.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class TokenExpiredException extends BaseException {
+public class TokenExpiredException extends BaseSecurityException {
     public static final String CODE = "TOKEN_EXPIRED";
 
     public TokenExpiredException(String message) {

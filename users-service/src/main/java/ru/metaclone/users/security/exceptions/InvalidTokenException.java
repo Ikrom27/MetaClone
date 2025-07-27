@@ -1,8 +1,8 @@
-package ru.metaclone.users.exceptions;
+package ru.metaclone.users.security.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class InvalidTokenException extends BaseException {
+public class InvalidTokenException extends BaseSecurityException {
 
     public static final String CODE = "INVALID_TOKEN";
 

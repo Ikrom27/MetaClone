@@ -20,7 +20,7 @@ public class UserFactory {
                 .userId(1L)
                 .login("existingUser")
                 .firstName("Petr")
-                .secondName("Petrov")
+                .lastName("Petrov")
                 .birthday(OffsetDateTime.parse("2000-05-05T00:00:00Z"))
                 .gender("MALE")
                 .avatarUrl("http://avatar.new.url")

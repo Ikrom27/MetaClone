@@ -1,4 +1,4 @@
-package ru.metaclone.users.secury;
+package ru.metaclone.users.security.model;
 
 import java.util.List;
 
