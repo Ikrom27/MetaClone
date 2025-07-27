@@ -1,4 +1,4 @@
-package ru.metaclone.security.model;
+package ru.metaclone.media.security.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

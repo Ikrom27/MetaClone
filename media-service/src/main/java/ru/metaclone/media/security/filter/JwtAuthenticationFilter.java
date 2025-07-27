@@ -1,4 +1,4 @@
-package ru.metaclone.security.filter;
+package ru.metaclone.media.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.metaclone.security.utils.JwtTokenProvider;
+import ru.metaclone.media.security.utils.JwtTokenProvider;
 
 import java.io.IOException;
 

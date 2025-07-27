@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.metaclone.media.data.response.AvatarPublishedResponse;
 import ru.metaclone.media.data.response.PreSignUrlResponse;
+import ru.metaclone.media.security.model.Authorities;
+import ru.metaclone.media.security.model.UserContext;
 import ru.metaclone.media.service.MediaService;
-import ru.metaclone.security.model.Authorities;
-import ru.metaclone.security.model.UserContext;
 
 @RestController
 @RequiredArgsConstructor

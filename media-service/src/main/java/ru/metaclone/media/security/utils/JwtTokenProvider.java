@@ -1,4 +1,4 @@
-package ru.metaclone.security.utils;
+package ru.metaclone.media.security.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -8,9 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import ru.metaclone.security.exceptions.InvalidTokenException;
-import ru.metaclone.security.exceptions.TokenExpiredException;
-import ru.metaclone.security.model.UserContext;
+import ru.metaclone.media.security.exceptions.InvalidTokenException;
+import ru.metaclone.media.security.exceptions.TokenExpiredException;
+import ru.metaclone.media.security.model.UserContext;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;

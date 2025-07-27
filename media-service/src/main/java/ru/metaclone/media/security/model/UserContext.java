@@ -1,4 +1,4 @@
-package ru.metaclone.security.model;
+package ru.metaclone.media.security.model;
 
 import java.util.List;
 

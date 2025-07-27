@@ -5,8 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.metaclone.security.exceptions.BaseSecurityException;
-import ru.metaclone.security.response.ErrorResponse;
+import ru.metaclone.media.data.response.ErrorResponse;
+import ru.metaclone.media.security.exceptions.BaseSecurityException;
 
 import java.time.Instant;
 

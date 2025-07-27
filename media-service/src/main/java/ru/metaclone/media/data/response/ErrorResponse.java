@@ -1,4 +1,4 @@
-package ru.metaclone.security.response;
+package ru.metaclone.media.data.response;
 
 import java.time.Instant;
 

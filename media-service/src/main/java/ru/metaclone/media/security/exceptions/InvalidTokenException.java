@@ -1,4 +1,4 @@
-package ru.metaclone.security.exceptions;
+package ru.metaclone.media.security.exceptions;
 
 import org.springframework.http.HttpStatus;
 

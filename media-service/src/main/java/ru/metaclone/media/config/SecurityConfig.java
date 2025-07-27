@@ -9,8 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.metaclone.security.filter.JwtAuthenticationFilter;
-import ru.metaclone.security.utils.JwtTokenProvider;
+import ru.metaclone.media.security.filter.JwtAuthenticationFilter;
+import ru.metaclone.media.security.utils.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
