@@ -1,5 +1,7 @@
 package ru.metaclone.media.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -14,15 +16,17 @@ import java.net.URI;
 
 @Configuration
 public class MinioConfig {
-
     @Value("${s3.accessKey}")
     private String ACCESS_KEY;
 
     @Value("${s3.secretKey}")
     private String SECRET_KEY;
 
-    @Value("${s3.endpoint}")
-    private String ENDPOINT;
+    @Value("${s3.internalEndpoint}")
+    private String INTERNAL_ENDPOINT;
+
+    @Value("${s3.publicEndpoint}")
+    private String PUBLIC_ENDPOINT;
 
     @Value("${s3.region}")
     private String REGION;
@@ -32,7 +36,7 @@ public class MinioConfig {
         AwsBasicCredentials credentials = AwsBasicCredentials.create(ACCESS_KEY, SECRET_KEY);
 
         return S3Client.builder()
-                .endpointOverride(URI.create(ENDPOINT))
+                .endpointOverride(URI.create(INTERNAL_ENDPOINT))
                 .credentialsProvider(StaticCredentialsProvider.create(credentials))
                 .region(Region.of(REGION))
                 .serviceConfiguration(S3Configuration.builder()
@@ -45,7 +49,7 @@ public class MinioConfig {
     public S3Presigner s3Presigner() {
         return S3Presigner.builder()
                 .region(Region.of(REGION))
-                .endpointOverride(URI.create(ENDPOINT))
+                .endpointOverride(URI.create(PUBLIC_ENDPOINT))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(ACCESS_KEY, SECRET_KEY)
                 ))

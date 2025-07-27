@@ -17,9 +17,10 @@ spring:
     redis:
       time-to-live: ${USERS_CACHE_TTL}
 
-  redis:
-    host: ${USERS_REDIS_HOST}
-    port: ${USERS_REDIS_PORT}
+  data:
+    redis:
+      host: ${USERS_REDIS_HOST}
+      port: ${USERS_REDIS_PORT}
 
   jpa:
     hibernate:
@@ -39,15 +40,3 @@ kafka:
 
 secret:
   access-token-key: ${SECRET_ACCESS_TOKEN_KEY}
-
-logging:
-  level:
-    org.springframework.security: DEBUG
-    com:
-      fasterxml:
-        jackson:
-          databind=DEBUG:
-    org:
-      springframework:
-        data:
-          redis=DEBUG:

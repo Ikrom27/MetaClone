@@ -60,7 +60,7 @@ public class MinioStorageService implements IStorageService {
     @Override
     public String generatePublicUrl(Long userId, String objectKey, String bucketName) {
         String publicKey = confirmUpload(userId, objectKey, bucketName);
-        return storageProperties.getPublicBaseUrl() + "/" + bucketName + "/" + publicKey;
+        return storageProperties.getPublicEndpoint() + "/" + bucketName + "/" + publicKey;
     }
 
     public String confirmUpload(Long userId, String objectKey, String bucketName) {
