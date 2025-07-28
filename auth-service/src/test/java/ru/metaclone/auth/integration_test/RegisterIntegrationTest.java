@@ -32,7 +32,7 @@ public class RegisterIntegrationTest extends BaseTestingSetup {
     @Test
     public void registerUser_givenValidRequest_shouldReturnTokens() throws Exception {
         var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
-        mvc.perform(post("/v1/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerRequest))
                 .andExpect(status().isOk())
@@ -46,12 +46,12 @@ public class RegisterIntegrationTest extends BaseTestingSetup {
     @Test
     public void registerUser_givenExistingUser_shouldReturnUserAlreadyExistsError() throws Exception {
         var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
-        mvc.perform(post("/v1/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerRequest))
                 .andExpect(status().isOk());
 
-        mvc.perform(post("/v1/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerRequest))
                 .andExpect(status().isConflict())
@@ -63,7 +63,7 @@ public class RegisterIntegrationTest extends BaseTestingSetup {
     @Test
     public void registerUser_givenValidRequest_shouldSendUserDetailsMessageToKafka() throws Exception {
         var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
-        mvc.perform(post("/v1/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerRequest))
                 .andExpect(status().isOk());

@@ -21,7 +21,7 @@ server:
   port: ${AUTH_PORT}
 
 kafka:
-  bootstrap-servers: ${KAFKA_SERVER}
+  bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
   topic:
     user-created: ${KAFKA_TOPIC_USER_CREATED}
 

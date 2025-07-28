@@ -31,7 +31,7 @@ public abstract class BaseTestingSetup {
     @Autowired
     private EmbeddedKafkaBroker embeddedKafka;
 
-    @Value("${secret.event-auth-topic}")
+    @Value("${kafka.topic.user-created}")
     private String topicName;
 
     protected Consumer<String, String> createConsumer() {
