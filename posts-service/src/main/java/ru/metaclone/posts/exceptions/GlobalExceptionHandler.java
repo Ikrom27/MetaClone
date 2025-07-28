@@ -24,4 +24,17 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(ex.getStatus()).body(errorResponse);
     }
+
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ErrorResponse> handleBaseException(BaseException ex, HttpServletRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                Instant.now(),
+                ex.getStatus().value(),
+                ex.getCode(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(ex.getStatus()).body(errorResponse);
+    }
 }

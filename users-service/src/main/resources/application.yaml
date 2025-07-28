@@ -24,7 +24,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${AUTH_DB_AUTO_UPDATE:none}
     show-sql: true
     properties:
       hibernate:
