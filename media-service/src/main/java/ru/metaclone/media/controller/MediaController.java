@@ -25,18 +25,16 @@ public class MediaController {
     @Value("${s3.avatarsBucketName}")
     private String AVATARS_BUCKET_NAME;
 
+    @Value("${s3.avatarsBucketName}")
+    private String IMAGES_BUCKET_NAME;
+
     @PostMapping("/avatars/presign")
-    public ResponseEntity<PreSignUrlResponse> generatePresignUrl(
+    public ResponseEntity<PreSignUrlResponse> generateAvatarPresignUrl(
             @RequestParam("user_id") Long userId,
             @RequestParam("file_name") String fileName,
             @AuthenticationPrincipal UserContext userContext
     ) {
-        boolean isOwner = userContext.id().equals(userId);
-        boolean isAdmin = userContext.authorities().contains(Authorities.ADMIN);
-
-        if (!isAdmin && !isOwner) {
-            throw new AccessDeniedException("Forbidden");
-        }
+        validateOwnerOrAdmin(userContext, userId);
         return ResponseEntity.ok(mediaService.generatePreSignedUrl(userId, fileName, AVATARS_BUCKET_NAME));
     }
 
@@ -46,12 +44,36 @@ public class MediaController {
             @RequestParam("object_key") String objectKey,
             @AuthenticationPrincipal UserContext userContext
     ) {
+        validateOwnerOrAdmin(userContext, userId);
+        return ResponseEntity.ok(mediaService.publishAvatar(userId, objectKey, AVATARS_BUCKET_NAME));
+    }
+
+    @PostMapping("/images/presign")
+    public ResponseEntity<PreSignUrlResponse> generateImagesPresignUrl(
+            @RequestParam("user_id") Long userId,
+            @RequestParam("file_name") String fileName,
+            @AuthenticationPrincipal UserContext userContext
+    ) {
+        validateOwnerOrAdmin(userContext, userId);
+        return ResponseEntity.ok(mediaService.generatePreSignedUrl(userId, fileName, IMAGES_BUCKET_NAME));
+    }
+
+    @PostMapping("/images/publish")
+    public ResponseEntity<AvatarPublishedResponse> publishImage(
+            @RequestParam("user_id") Long userId,
+            @RequestParam("object_key") String objectKey,
+            @AuthenticationPrincipal UserContext userContext
+    ) {
+        validateOwnerOrAdmin(userContext, userId);
+        return ResponseEntity.ok(mediaService.publishImage(userId, objectKey, AVATARS_BUCKET_NAME));
+    }
+
+    private void validateOwnerOrAdmin(UserContext userContext, Long userId) {
         boolean isOwner = userContext.id().equals(userId);
         boolean isAdmin = userContext.authorities().contains(Authorities.ADMIN);
 
         if (!isAdmin && !isOwner) {
             throw new AccessDeniedException("Forbidden");
         }
-        return ResponseEntity.ok(mediaService.publishAvatar(userId, objectKey, AVATARS_BUCKET_NAME));
     }
 }

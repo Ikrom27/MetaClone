@@ -27,4 +27,9 @@ public class MediaService {
         CompletableFuture.runAsync(() -> kafkaProducer.produceAvatarUpdate(userId, publicUrl));
         return new AvatarPublishedResponse(userId, publicUrl);
     }
+
+    public AvatarPublishedResponse publishImage(Long userId, String objectKey, String bucketName) {
+        String publicUrl = storageService.generatePublicUrl(userId, objectKey, bucketName);
+        return new AvatarPublishedResponse(userId, publicUrl);
+    }
 }

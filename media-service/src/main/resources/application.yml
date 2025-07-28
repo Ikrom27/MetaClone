@@ -13,6 +13,7 @@ s3:
   publicEndpoint: ${S3_PUBLIC_ENDPOINT}
   region: ${S3_REGION}
   avatarsBucketName: ${AVATARS_BUCKET}
+  imagesBucketName: ${IMAGES_BUCKET}
   presignDurationSeconds: ${PRESIGN_DURATION_SECONDS}
 
 secret:
