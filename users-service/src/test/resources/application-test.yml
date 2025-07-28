@@ -15,7 +15,8 @@ spring:
 
 kafka:
   topic:
-    user-events: user-event
+    user-created: user-created
+    user-updated: user-updated
     user-avatar-update: user.avatar.update
   group-id:
     users: user-group

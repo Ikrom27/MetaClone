@@ -16,7 +16,7 @@ public class UsersEventConsumer {
     }
 
     @KafkaListener(
-            topics = "${kafka.topic.user-events}",
+            topics = "${kafka.topic.user-created}",
             groupId = "${kafka.group-id.users-service}",
             containerFactory = "userCreatedContainerFactory"
     )

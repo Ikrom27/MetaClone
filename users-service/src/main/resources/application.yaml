@@ -33,7 +33,8 @@ spring:
 kafka:
   bootstrap-servers: ${KAFKA_SERVER}
   topic:
-    user-events: ${KAFKA_TOPIC_USER_CREATED}
+    user-created: ${KAFKA_TOPIC_USER_CREATED}
+    user-updated: ${KAFKA_TOPIC_USER_UPDATED}
     avatar-update: ${KAFKA_TOPIC_AVATAR_UPDATED}
   group-id:
     users-service: ${KAFKA_USERS_GROUP}

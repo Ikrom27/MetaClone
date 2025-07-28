@@ -13,5 +13,5 @@ kafka:
   group-id:
     search-group: ${KAFKA_SEARCH_GROUP}
   topic:
-    users-updated: ${KAFKA_TOPIC_USER_CREATED}
+    users-updated: ${KAFKA_TOPIC_USER_UPDATED}
     users-created: ${KAFKA_TOPIC_USER_CREATED}

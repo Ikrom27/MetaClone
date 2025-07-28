@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.metaclone.users.data.entity.SubscriptionEntity;
 import ru.metaclone.users.data.entity.UserEntity;
 import ru.metaclone.users.data.response.UserPreview;
+import ru.metaclone.users.events.UsersEventProducer;
 import ru.metaclone.users.exceptions.SelfFollowException;
 import ru.metaclone.users.exceptions.UserNotFoundException;
 import ru.metaclone.users.mappers.UserEntityMapper;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class UsersService {
+    private final UsersEventProducer usersEventProducer;
     private final SubscriptionRepository subscriptionRepository;
     private final UsersRepository usersRepository;
     private final UserEntityMapper userEntityMapper;
@@ -63,6 +65,7 @@ public class UsersService {
         }
         userEntity.setAbout(newUser.about());
         updateCache(userEntity);
+        usersEventProducer.produceUserUpdateEvent(userEntityMapper.mapToUpdateEvent(userEntity));
         return userEntityMapper.mapToResponse(userEntity);
     }
 
@@ -73,10 +76,11 @@ public class UsersService {
 
     @Transactional
     public void updateAvatarFromEvent(UserAvatarUpdatedEvent event) {
-        var user = usersRepository.findById(event.userId())
+        var userEntity = usersRepository.findById(event.userId())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUNT_WITH_ID_MESSAGE + event.userId()));
-        user.setAvatarUrl(event.avatarUrl());
-        updateCache(user);
+        userEntity.setAvatarUrl(event.avatarUrl());
+        updateCache(userEntity);
+        usersEventProducer.produceUserUpdateEvent(userEntityMapper.mapToUpdateEvent(userEntity));
     }
 
     private void updateCache(UserEntity userEntity) {

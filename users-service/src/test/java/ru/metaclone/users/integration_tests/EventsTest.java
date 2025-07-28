@@ -35,7 +35,7 @@ public class EventsTest extends BaseIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Value("${kafka.topic.user-events}")
+    @Value("${kafka.topic.user-created}")
     protected String USER_CREATED_EVENT;
 
     @Value("${kafka.topic.user-avatar-update}")
