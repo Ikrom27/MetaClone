@@ -24,4 +24,3 @@ public record UserCreatedEvent(
         @JsonProperty("gender")
         Gender gender
 ) { }
-

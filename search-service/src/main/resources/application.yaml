@@ -1,6 +1,14 @@
 spring:
   application:
     name: search-service
+  elasticsearch:
+    uris: http://${SEARCH_ENGINE_HOST}:${SEARCH_ENGINE_PORT}
+    connection-timeout: 1000
+    read-timeout: 3000
+
+server:
+  host: ${SEARCH_HOST}
+  port: ${SEARCH_PORT}
 
 search-engine:
   config:
@@ -15,3 +23,7 @@ kafka:
   topic:
     users-updated: ${KAFKA_TOPIC_USER_UPDATED}
     users-created: ${KAFKA_TOPIC_USER_CREATED}
+
+logging:
+  level:
+    root: DEBUG

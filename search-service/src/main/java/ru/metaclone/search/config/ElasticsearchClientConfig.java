@@ -6,6 +6,8 @@ import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +15,11 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @Configuration
 @EnableElasticsearchRepositories(
-        basePackages = "package ru.metaclone.search.repository"
+        basePackages = "ru.metaclone.search.repository"
 )
 public class ElasticsearchClientConfig {
+
+    private final Logger logger = LoggerFactory.getLogger(ElasticsearchClientConfig.class.getName());
 
     @Value("${search-engine.config.host}")
     public String SEARCH_ENGINE_HOST;
@@ -25,6 +29,10 @@ public class ElasticsearchClientConfig {
 
     @Bean
     public ElasticsearchClient elasticsearchClient() {
+        logger.debug("========= SEARCH ENGINE INIT ============");
+        logger.debug("SEARCH_ENGINE_HOST: {}", SEARCH_ENGINE_HOST);
+        logger.debug("SEARCH_ENGINE_PORT: {}", SEARCH_ENGINE_PORT);
+        logger.debug("=========================================");
         RestClient restClient= RestClient.builder(
                 new HttpHost(SEARCH_ENGINE_HOST, SEARCH_ENGINE_PORT)
         ).build();
