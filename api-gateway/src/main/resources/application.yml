@@ -20,6 +20,10 @@ spring:
               uri: ${SEARCH_SERVICE_URL}
               predicates:
                 - Path=/api/v1/search/**
+            - id: posts-service
+              uri: ${POSTS_SERVICE_URL}
+              predicates:
+                - Path=/api/v1/posts/**
 
 server:
   port: ${PORT}

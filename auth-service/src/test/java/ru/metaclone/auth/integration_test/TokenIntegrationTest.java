@@ -35,7 +35,7 @@ public class TokenIntegrationTest extends BaseTestingSetup {
     @Test
     public void refreshToken_givenValidRequest_shouldReturnNewAccessToken() throws Exception {
         var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
-        var registerResult = mvc.perform(post("/v1/auth/register")
+        var registerResult = mvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerRequest))
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ public class TokenIntegrationTest extends BaseTestingSetup {
 
         String refreshRequest = RequestFactory.mockRefreshTokenRequest(refreshToken);
 
-        mvc.perform(post("/v1/auth/refresh_token")
+        mvc.perform(post("/api/v1/auth/refresh_token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(refreshRequest))
                 .andExpect(status().isOk())
@@ -58,7 +58,7 @@ public class TokenIntegrationTest extends BaseTestingSetup {
     public void refreshToken_givenInvalidToken_shouldReturnUnauthorized() throws Exception {
         String request = RequestFactory.mockRefreshTokenRequest("invalid token");
 
-        mvc.perform(post("/v1/auth/refresh_token")
+        mvc.perform(post("/api/v1/auth/refresh_token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isUnauthorized())
@@ -70,7 +70,7 @@ public class TokenIntegrationTest extends BaseTestingSetup {
     @Test
     public void logout_givenValidUser_shouldRemoveRefreshToken() throws Exception {
         var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
-        var registerResult = mvc.perform(post("/v1/auth/register")
+        var registerResult = mvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerRequest))
                 .andExpect(status().isOk())
@@ -83,7 +83,7 @@ public class TokenIntegrationTest extends BaseTestingSetup {
 
         var logoutRequest = RequestFactory.mockLogoutRequest(refreshToken);
 
-        mvc.perform(post("/v1/auth/logout")
+        mvc.perform(post("/api/v1/auth/logout")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(logoutRequest))
                 .andExpect(status().isOk());

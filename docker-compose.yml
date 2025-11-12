@@ -12,11 +12,13 @@ services:
       - USERS_SERVICE_URL=http://users-service:8082
       - MEDIA_SERVICE_URL=http://media-service:8083
       - SEARCH_SERVICE_URL=http://search-service:8084
+      - POSTS_SERVICE_URL=http://posts-service:8085
     depends_on:
       - auth-service
       - users-service
       - media-service
       - search-service
+      - posts-service
     env_file:
       - .env
 
@@ -92,6 +94,22 @@ services:
     env_file:
       - .env
 
+  posts-service:
+    build:
+      context: ./posts-service
+    ports:
+      - "${POSTS_PORT}:8080"
+    environment:
+      - POSTS_HOST=posts-service
+      - POSTS_PORT=${POSTS_PORT}
+      - POSTS_DB_HOST=postgres_posts
+      - POSTS_DB_PORT=5432
+    depends_on:
+      - postgres_posts
+      - redis
+    env_file:
+      - .env
+
   postgres_auth:
     image: postgres:15-alpine
     restart: unless-stopped
@@ -119,6 +137,20 @@ services:
       - postgres_users_data:/var/lib/postgresql/data
     ports:
       - "5434:5432"
+
+  postgres_posts:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTS_DB_NAME}
+      POSTGRES_USER: ${POSTS_DB_USERNAME}
+      POSTGRES_PASSWORD: ${POSTS_DB_PASSWORD}
+    volumes:
+      - postgres_posts_data:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
 
   kafka:
     image: bitnami/kafka:latest
@@ -175,6 +207,8 @@ services:
       mc alias set local http://minio:9000 ${S3_ACCESS_KEY} ${S3_SECRET_KEY};
       mc mb --ignore-existing local/${AVATARS_BUCKET};
       mc anonymous set download local/${AVATARS_BUCKET};
+      mc mb --ignore-existing local/${IMAGES_BUCKET};
+      mc anonymous set download local/${IMAGES_BUCKET};
       "
     restart: "no"
 
@@ -202,6 +236,7 @@ services:
 volumes:
   postgres_auth_data:
   postgres_users_data:
+  postgres_posts_data:
   minio_data:
   kafka_data:
   es-data:

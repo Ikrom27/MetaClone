@@ -27,12 +27,12 @@ public class LoginIntegrationTest extends BaseTestingSetup {
     @Test
     public void login_givenValidCredentials_shouldReturnTokens() throws Exception {
         var registerRequest = RequestFactory.mockRegisterRequest(DataMocks.CREDENTIALS, DataMocks.USER_DETAILS);
-        mvc.perform(post("/v1/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerRequest))
                 .andExpect(status().isOk());
 
-        mvc.perform(post("/v1/auth/login")
+        mvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(DataMocks.CREDENTIALS))
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ public class LoginIntegrationTest extends BaseTestingSetup {
     @Test
     public void login_givenUnknownUser_shouldReturnUserNotFoundError() throws Exception {
         var loginRequest = DataMocks.CREDENTIALS_UNKNOWN;
-        mvc.perform(post("/v1/auth/login")
+        mvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginRequest))
                 .andExpect(status().isNotFound())
